@@ -56,7 +56,7 @@ module.exports = {
   lintOnSave: false,
 
   pwa: {
-    themeColor: '#f6cd07',
-    msTileColor: '#bf9d00',
+    themeColor: '#95c2d3',
+    msTileColor: '#9ec9a4',
   },
 };

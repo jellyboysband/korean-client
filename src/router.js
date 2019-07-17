@@ -19,7 +19,7 @@ export default new Router({
       component: Home,
       props: route => ({
         brandId: +route.query.brand,
-        search: `${route.query.search}`,
+        search: route.query.search,
       }),
     },
     {
