@@ -6,24 +6,17 @@
           VIcon.search-icon(icon="regular/search")
         input.search-input(v-model="searchText" type="search")
 
-    ul.brand-filter-list
-      li.brand-filter-item(@click="onBrandClick")
-        router-link.brand-filter-link(
-          :to="{ query: { ...$route.query, brand: 0 } }"
-          :class="{ active: !brandId }"
-          replace
-        ) Все
-
-      li.brand-filter-item(
-        v-for="brand in BrandList"
-        :key="brand.id"
-        @click="onBrandClick"
+    ul.filter-list
+      li.filter-item(
+        v-for="type in typeList"
+        :key="type.id"
+        :class="{ active: type.id === typeId }"
+        @click="onFilterClick"
       )
-        router-link.brand-filter-link(
-          :to="{ query: { ...$route.query, brand: brand.id } }"
-          :class="{ active: brand.id === brandId }"
+        router-link.filter-link(
+          :to="{ query: { ...$route.query, type: type.id } }"
           replace
-        ) {{ brand.name }}
+        ) {{ type.name }}
 
     ul.cosmetic-list
       li.cosmetic-item(
@@ -48,8 +41,16 @@
 import Fuse from 'fuse.js'
 import { mapState } from 'vuex'
 
+const FILTER_TYPE_NEW = 'new'
+const FILTER_TYPE_POPULAR = 'popular'
+const FILTER_TYPE_SALE = 'sale'
+
 export default {
   props: {
+    typeId: {
+      default: FILTER_TYPE_NEW,
+      type: String,
+    },
     brandId: {
       default: 0,
       type: Number,
@@ -63,6 +64,20 @@ export default {
   data() {
     return {
       searchText: '',
+      typeList: Object.freeze([
+        {
+          id: FILTER_TYPE_NEW,
+          name: 'Новинки',
+        },
+        {
+          id: FILTER_TYPE_POPULAR,
+          name: 'Популярное',
+        },
+        {
+          id: FILTER_TYPE_SALE,
+          name: 'Распродажа',
+        },
+      ].map(Object.freeze)),
     }
   },
 
@@ -116,7 +131,7 @@ export default {
   },
 
   methods: {
-    onBrandClick(event) {
+    onFilterClick(event) {
       event.target.scrollIntoView({
         behavior: 'smooth',
         block: 'nearest',
@@ -139,6 +154,7 @@ export default {
     $search-height = 2.75rem
 
     .search-field
+      background-color white
       border-radius 1rem
       box-shadow 0 0 1rem 0 #d9d9d9
       display flex
@@ -154,14 +170,14 @@ export default {
         width $search-height
 
         .search-icon
-          color #959595
+          color $tc-3
 
       .search-input
         color #181818
         padding-left $search-height
         width 100%
 
-  .brand-filter-list
+  .filter-list
     display flex
     overflow-y auto
     padding 1rem 1.25rem
@@ -176,38 +192,36 @@ export default {
       flex none
       width 1.25rem
 
-    .brand-filter-item
+    .filter-item
+      color #a7a5a6
       flex none
+      font-size $fs-md
+      font-weight $fw-bold
+      position relative
+      transition color .2s
 
       &:not(:first-child)
         margin-left 1.25rem
 
-      .brand-filter-link
-        color #a7a5a6
-        font-size $fs-md
-        font-weight $fw-semi-bold
-        position relative
-        transition color .2s
+      &::after
+        background-color $primary
+        border-radius $radius-circle
+        content ''
+        display block
+        height .25rem
+        left 50%
+        opacity 0
+        position absolute
+        top 110%
+        transform translateX(-50%)
+        transition opacity .2s
+        width .25rem
+
+      &.active
+        color $tc-1
 
         &::after
-          background-color $primary
-          border-radius $radius-circle
-          content ''
-          display block
-          height .25rem
-          left 50%
-          opacity 0
-          position absolute
-          top 110%
-          transform translateX(-50%)
-          transition opacity .2s
-          width .25rem
-
-        &.active
-          color #181818
-
-          &::after
-            opacity 1
+          opacity 1
 
   .cosmetic-list
     display grid

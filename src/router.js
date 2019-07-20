@@ -18,7 +18,7 @@ export default new Router({
       name: 'home',
       component: Home,
       props: route => ({
-        brandId: +route.query.brand,
+        typeId: route.query.type,
         search: route.query.search,
       }),
     },
