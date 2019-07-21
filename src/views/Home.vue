@@ -6,6 +6,11 @@
           VIcon.search-icon(icon="regular/search")
         input.search-input(v-model="searchText" type="search")
 
+    ul.promo-list
+      li.promo-item
+        .promo-title Барный режим 2.0
+        .promo-subtitle Сезон открыт
+
     ul.filter-list
       li.filter-item(
         v-for="type in typeList"
@@ -176,6 +181,24 @@ export default {
         color #181818
         padding-left $search-height
         width 100%
+
+  .promo-list
+    padding $lg
+
+    .promo-item
+      background-image linear-gradient(to left, #cc00c2, #55022e)
+      border-radius $radius-md
+      margin-top $md
+      padding $md
+
+      .promo-title
+        color alpha(white, .87)
+        font-size $fs-lg
+        font-weight $fw-semi-bold
+
+      .promo-subtitle
+        color alpha(white, .6)
+        font-size $fs-xs
 
   .filter-list
     display flex
