@@ -1,15 +1,18 @@
 <template lang="pug">
   article#home
-    section.search-container
+    header.home-header
       form.search-field(@submit.prevent="onSearchSubmit")
         .search-icon-container
           VIcon.search-icon(icon="regular/search")
         input.search-input(v-model="searchText" type="search")
 
+      button.product-basket
+        VIcon(icon="light/shopping-bag" square)
+
     ul.promo-list
-      li.promo-item
-        .promo-title Барный режим 2.0
-        .promo-subtitle Сезон открыт
+      li.promo-item(v-for="promo in promoList")
+        a.promo-link
+          img.promo-preview(:src="promo")
 
     ul.filter-list
       li.filter-item(
@@ -23,28 +26,36 @@
           replace
         ) {{ type.name }}
 
-    ul.cosmetic-list
-      li.cosmetic-item(
-        v-for="cosmetic in cosmeticListSearched"
-        :key="cosmetic.id"
+    ul.product-list
+      li.product-item(
+        v-for="product in ProductList"
+        :key="product.id"
       )
-        router-link.cosmetic-link(:to="{ name: 'cosmetic', params: { cosmeticId: cosmetic.id } }")
-          section.cosmetic-card
-            figure.cosmetic-preview-container
-              img.cosmetic-preview(
-                :alt="`Фотография продукта ${cosmetic.name}`"
-                :src="cosmetic.avatarUrl"
+        router-link.product-link(:to="{ name: 'product', params: { productId: product.id } }")
+          section.product-card
+            figure.product-preview-container
+              img.product-preview(
+                :alt="`Фотография продукта ${product.name}`"
+                :src="product.avatarUrl"
               )
-            span.cosmetic-place {{ cosmetic.place }}
-            h6.cosmetic-name {{ cosmetic.brand.name }} {{ cosmetic.name }}
-            p.cosmetic-description {{ cosmetic.description }}
-            p.cosmetic-price {{ cosmetic.price | number }} ₽
+            main.product-info
+              .product-sale -13%
+              span.product-place {{ product.place }}
+              h6.product-name {{ product.brand.name }} {{ product.name }}
+              p.product-description {{ product.description }}
+              p.product-price
+                span.product-price-curr {{ product.price | number }} ₽
+                span.product-price-prev {{ product.price | number }} ₽
 
 </template>
 
 <script>
 import Fuse from 'fuse.js'
 import { mapState } from 'vuex'
+
+import promo1Image from '@/assets/images/promo/1.jpg'
+import promo2Image from '@/assets/images/promo/2.jpg'
+import promo3Image from '@/assets/images/promo/3.jpg'
 
 const FILTER_TYPE_NEW = 'new'
 const FILTER_TYPE_POPULAR = 'popular'
@@ -68,6 +79,11 @@ export default {
 
   data() {
     return {
+      promoList: [
+        promo1Image,
+        promo2Image,
+        promo3Image,
+      ],
       searchText: '',
       typeList: Object.freeze([
         {
@@ -87,15 +103,15 @@ export default {
   },
 
   computed: {
-    ...mapState('cosmetic', ['BrandList', 'CosmeticList']),
+    ...mapState('product', ['BrandList', 'ProductList']),
 
-    cosmeticListFiltered() {
+    productListFiltered() {
       return this.brandId
-        ? this.CosmeticList.filter(it => it.brand.id === this.brandId)
-        : this.CosmeticList
+        ? this.ProductList.filter(it => it.brand.id === this.brandId)
+        : this.ProductList
     },
 
-    cosmeticListSearched() {
+    productListSearched() {
       const options = {
         shouldSort: true,
         findAllMatches: true,
@@ -118,11 +134,11 @@ export default {
           },
         ],
       }
-      const fuse = new Fuse(this.cosmeticListFiltered, options)
+      const fuse = new Fuse(this.productListFiltered, options)
 
       return this.search
         ? fuse.search(this.search)
-        : this.cosmeticListFiltered
+        : this.productListFiltered
     },
   },
 
@@ -153,57 +169,96 @@ export default {
 
 <style lang="stylus">
 #home
-  .search-container
-    padding 1.75rem 1.25rem 1rem
+  .home-header
+    display grid
+    gap $md
+    grid-template-columns 1fr auto
+    padding $xxl $md $md
 
-    $search-height = 2.75rem
+    $field-height = 2.75rem
 
     .search-field
       background-color white
-      border-radius 1rem
-      box-shadow 0 0 1rem 0 #d9d9d9
+      border-radius $radius-md
+      // box-shadow 0 0 1rem 0 #d9d9d9
+      box-shadow $shadow-1
       display flex
-      height $search-height
+      height $field-height
       position relative
 
       .search-icon-container
         align-items center
         display flex
-        height $search-height
+        height $field-height
         justify-content center
         position absolute
-        width $search-height
+        width $field-height
 
         .search-icon
           color $tc-3
 
       .search-input
         color #181818
-        padding-left $search-height
+        padding-left $field-height
         width 100%
 
+    .product-basket
+      align-items center
+      background-color $secondary
+      border-radius $radius-md
+      box-shadow $shadow-1
+      color $white
+      display flex
+      font-size $fs-xl
+      height $field-height
+      justify-content center
+      text-align center
+      width $field-height
+
   .promo-list
-    padding $lg
+    display flex
+    overflow-y auto
+    padding $md
+    scroll-behavior smooth
+    scroll-margin $xs
+    scroll-padding $xs
+    scroll-padding-block $xs
+    scroll-snap-stop always
+    scroll-snap-type x mandatory
+    scrollbar-width none
+
+    &::-webkit-scrollbar
+      display none
+
+    &::after
+      content ''
+      flex none
+      width $md
 
     .promo-item
-      background-image linear-gradient(to left, #cc00c2, #55022e)
       border-radius $radius-md
-      margin-top $md
-      padding $md
+      box-shadow $shadow-1
+      flex none
+      overflow hidden
+      scroll-snap-align center
+      width 100%
 
-      .promo-title
-        color alpha(white, .87)
-        font-size $fs-lg
-        font-weight $fw-semi-bold
+      &:not(:first-child)
+        margin-left $xs
 
-      .promo-subtitle
-        color alpha(white, .6)
-        font-size $fs-xs
+      .promo-link
+        display block
+
+      .promo-preview
+        display block
+        height 140px
+        object-fit cover
+        width 100%
 
   .filter-list
     display flex
     overflow-y auto
-    padding 1rem 1.25rem
+    padding $md
     scroll-behavior smooth
     scrollbar-width none
 
@@ -216,10 +271,11 @@ export default {
       width 1.25rem
 
     .filter-item
-      color #a7a5a6
+      color #87888b
+      cursor pointer
       flex none
       font-size $fs-md
-      font-weight $fw-bold
+      font-weight 500
       position relative
       transition color .2s
 
@@ -241,26 +297,33 @@ export default {
         width .25rem
 
       &.active
-        color $tc-1
+        // color $tc-1
+        color #333
 
         &::after
           opacity 1
 
-  .cosmetic-list
+  .product-list
     display grid
-    gap 2rem
-    grid-template-columns repeat(auto-fill, minmax(240px, 1fr))
-    padding 1.25rem
+    gap $md
+    grid-template-columns repeat(auto-fill, minmax(160px, 1fr))
+    padding $md $md $xxl
     scroll-behavior smooth
 
-    .cosmetic-item
-      .cosmetic-card
-        .cosmetic-preview-container
-          margin-bottom .75rem
-          padding-top 80%
+    .product-item
+      .product-card
+        background-color white
+        border-radius $radius-md
+        box-shadow $shadow-1
+        overflow hidden
+        position relative
+
+        .product-preview-container
+          border-radius $radius-md
+          padding-top 100%
           position relative
 
-          .cosmetic-preview
+          .product-preview
             bottom 0
             color $tc-3
             display block
@@ -273,22 +336,48 @@ export default {
             top 0
             width 100%
 
-        .cosmetic-place
-          font-size $fs-xs
-          font-weight $fw-semi-bold
-          margin-bottom .25rem
-          opacity .7
+        .product-info
+          padding $sm
+          position relative
 
-        .cosmetic-name
-          font-size $fs-md
-          font-weight $fw-semi-bold
-          margin-bottom .25rem
+          .product-sale
+            background-color $secondary
+            border-radius $radius-xs
+            box-shadow $shadow-1
+            color alpha($white, .87)
+            font-size $fs-xs
+            font-weight $fw-semi-bold
+            padding $xxs $xs
+            position absolute
+            top $xs
+            transform translateY(-100%)
 
-        .cosmetic-description
-          color $tc-2
-          font-size $fs-xs
-          // margin-bottom .25rem
+          .product-place
+            font-size $fs-xs
+            font-weight $fw-semi-bold
+            margin-bottom $xxs
+            opacity .7
 
-        .cosmetic-price
-          font-size $fs-xxxl
+          .product-name
+            font-size $fs-md
+            font-weight $fw-semi-bold
+            margin-bottom $xxs
+
+          .product-description
+            color $tc-2
+            font-size $fs-xs
+            line-height 1.25
+            // margin-bottom $xxs
+
+          .product-price
+            margin-top $xs
+
+            .product-price-curr
+              font-size $fs-xl
+              font-weight $fw-semi-bold
+
+            .product-price-prev
+              color $tc-3
+              margin-left $xs
+              text-decoration line-through
 </style>

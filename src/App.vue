@@ -4,8 +4,8 @@
 
     footer#footer
       address.contact
-        a.contact-phone(href="tel:+79260332006") +7 926 033 20 06
-        a.contact-email(href="mailto:webmaster@example.com") webmaster@example.com
+        a.contact-phone(href="tel:+79533737385") +7 (953) 373-73-85
+        a.contact-email(href="mailto:tandem.beauty178@gmail.com") tandem.beauty178@gmail.com
 
 </template>
 
@@ -15,22 +15,26 @@
   max-width 1020px
 
 #footer
-  background-color #131313
-  border-top 1px solid $bc-1
+  // background-color #131313
+  // background-color #e1eded
+  background-color alpha($primary, .2)
+  // border-top .25px solid $bc-1
   padding $xxl $md $xl
 
   .contact
-    color alpha(white, .87)
+    // color alpha(white, .87)
+    // color alpha(black, .87)
     display flex
     flex-direction column
     font-style normal
-    font-weight $fw-bold
-    text-align center
 
     .contact-phone
-      font-size $fs-xl
+      // font-size $fs-xl
+      font-size $fs-lg
       margin-bottom $xs
+      text-decoration underline
 
     .contact-email
       font-size $fs-sm
+      text-decoration underline
 </style>

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Cosmetic from './views/Cosmetic.vue'
+import Product from './views/Product.vue'
 
 Vue.use(Router)
 
@@ -23,11 +23,11 @@ export default new Router({
       }),
     },
     {
-      path: '/cosmetic/:cosmeticId',
-      name: 'cosmetic',
-      component: Cosmetic,
+      path: '/product/:productId',
+      name: 'product',
+      component: Product,
       props: route => ({
-        cosmeticId: +route.params.cosmeticId,
+        productId: +route.params.productId,
       }),
     },
   ],

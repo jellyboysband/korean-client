@@ -1,22 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import cosmetic from '@/store/cosmetic'
+import product from '@/store/product'
 import lang from '@/store/lang'
 
 Vue.use(Vuex)
 
 const store = {
   modules: {
-    cosmetic,
+    product,
     lang,
   },
 
   actions: {
     async Init({ dispatch }) {
       return Promise.all([
-        dispatch('cosmetic/LoadBrandList'),
-        dispatch('cosmetic/LoadCosmeticList'),
+        dispatch('product/LoadBrandList'),
+        dispatch('product/LoadProductList'),
       ])
     },
   },
