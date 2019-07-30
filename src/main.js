@@ -6,12 +6,14 @@ import filters from './filters'
 import './registerServiceWorker'
 import '@styles/index.styl'
 
+import VCollapse from '@/elements/VCollapse.vue'
 import VIcon from '@/elements/VIcon.vue'
 
 store.commit('SetLang', 'ru' || window.localStorage.lang || navigator.language || navigator.userLanguage)
 store.dispatch('Init')
 Object.entries(filters(store.getters)).forEach(([key, value]) => Vue.filter(key, value))
 
+Vue.component('VCollapse', VCollapse)
 Vue.component('VIcon', VIcon)
 
 Vue.config.productionTip = false

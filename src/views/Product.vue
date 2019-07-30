@@ -10,22 +10,48 @@
       VIcon(icon="light/long-arrow-left")
 
     main.product-body
-      section.product-info
+      section.product-section
         h2.product-title
           span.product-brand {{ product.brand.name }}
           | &nbsp;
           span.product-name {{ product.name }}
-
         p.product-description {{ product.description }}
 
-      section.product-apply
-        h3.product-apply-title Способ применения
-        p.product-apply-text {{ product.apply }}
+      section.product-section
+        VCollapse
+          template(#trigger="{ opened }")
+            h3.description-title
+              VIcon.description-icon(icon="regular/align-left" inline)
+              span Описание
+              VIcon.description-trigger-icon(:icon="`regular/chevron-${opened ? 'up' : 'down'}`")
 
-      section.product-buy-container
-        button.product-buy
-          VIcon(icon="light/shopping-bag" square)
-        p.product-price {{ product.price | number }} ₽
+          .product-description
+            p Филлер для восстановления структуры волос Lador Perfect Hair Filler, содержащий в своём составе керамиды, LPP-кератин, PPT-коллаген, шелковые аминокислоты. Филлер за одну процедуру мгновенно преобразит ваши волосы, сделает их невероятно сильным, здоровыми, шелковистыми и блестящими! Филлер нормализует PH балланс кожи головы, лечит волосы ослабленные химией или окрашиванием, улучшает общее состояние волос. Волосы становятся эластичными, увлажненными (пропадает эффект сухих концов), гладкими. Филлер проникает внутрь волоса, сглаживает чешуйки, дефекты и повреждения структуры, делает каждый отдельный волос более гладким.
+            p Восстанавливающий филлер для волос даёт ощутимый результат уже после первого применения. Применять филлеры можно в виде курса процедур (оптимально 2 раза в неделю) или по мере необходимости, когда вам нужно особенно хорошо выглядеть.
+
+      section.product-section
+        .level
+          p.product-price
+            span.product-price-curr {{ product.price | number }} ₽
+            span.product-price-prev {{ product.price | number }} ₽
+
+          section.product-count
+            button.product-count-increment(@click="count++")
+              VIcon(icon="light/plus")
+            input.product-count-value(
+              v-model.number="count"
+              inputmode="numeric"
+              min="1"
+              pattern="[1-9]*"
+              type="number"
+            )
+            button.product-count-decrement(@click="count = Math.max(1, count - 1)")
+              VIcon(icon="light/minus")
+
+        button.add-to-cart Добавить в корзину
+
+    footer.product-footer
+
 
 </template>
 
@@ -42,6 +68,7 @@ export default {
 
   data() {
     return {
+      count: 1,
     }
   },
 
@@ -57,9 +84,11 @@ export default {
 
 <style lang="stylus">
 #product
-  background-color $white
   display grid
   position relative
+
+  .product-body
+    background-color white
 
   @media (min-width: 600px)
     grid-template-columns 2fr 3fr
@@ -83,13 +112,6 @@ export default {
     position relative
 
     .product-preview
-      color $tc-3
-      display block
-      font-size $fs-xs
-      object-fit cover
-      position absolute
-
-    .product-preview
       bottom 0
       color $tc-3
       display block
@@ -97,51 +119,102 @@ export default {
       height 100%
       left 0
       object-fit cover
+      position absolute
       right 0
       top 0
       width 100%
 
-  .product-body
+  .product-section
+    border-bottom .75px solid $bc-1
     padding $md
 
-    .product-info
-      margin-bottom 1.25rem
-
-      .product-title
-        font-size $fs-lg
-        font-weight $fw-semi-bold
-        margin-bottom .5rem
-
-      .product-description
-        color $tc-2
-        font-size $fs-sm
-
-    .product-apply
-      margin-bottom 1.25rem
-
-      .product-apply-title
-        font-size $fs-md
-        font-weight $fw-semi-bold
-        margin-bottom .5rem
-
-      .product-apply-text
-        color $tc-2
-        font-size $fs-sm
-
-    .product-buy-container
+    .description-title
       align-items center
       display flex
+      font-size $fs-md
+      font-weight $fw-semi-bold
 
-      .product-buy
-        background-color $secondary
-        border-radius $radius-md
-        color white
-        font-size $fs-xxl
-        // margin-left auto
-        margin-right 1rem
-        padding .75rem
+      .description-icon
+        color $tc-3
 
-      .product-price
-        font-size $fs-xxl
-        // margin-right auto
+      .description-trigger-icon
+        margin-left auto
+
+  .product-body
+    // padding $xl $md
+    .product-title
+      font-size $fs-xl
+      font-weight $fw-semi-bold
+      // margin-bottom $sm
+
+    .product-description
+      color $tc-2
+      font-size $fs-sm
+
+      > p
+        margin-top $xs
+
+  .level
+    align-items center
+    display flex
+    justify-content space-between
+
+  .product-price
+    line-height 1.25
+
+    .product-price-curr
+      display block
+      font-size $fs-xl
+      font-weight $fw-semi-bold
+
+    .product-price-prev
+      color $tc-3
+      display block
+      text-decoration line-through
+
+  .product-count
+    $count-item-size = 2.75rem
+
+    background-color $white
+    border .75px solid $bc-1
+    border-radius $radius-md
+    display flex
+    overflow hidden
+    width $count-item-size * 3
+
+    .product-count-value
+    .product-count-increment
+    .product-count-decrement
+      align-items center
+      display flex
+      height $count-item-size
+      justify-content center
+      text-align center
+      transition all .2s
+      width $count-item-size
+
+    .product-count-value
+      font-size $fs-lg
+
+    .product-count-increment
+    .product-count-decrement
+      color $tc-2
+      font-size $fs-md
+
+      &:active
+        background-color alpha($primary, .2)
+
+  .add-to-cart
+    background-color $tertiary
+    border-radius $radius-md
+    box-shadow $shadow-1
+    color white
+    display block
+    height 2.75rem
+    margin $md auto 0
+    padding 0 $xxl
+    width 100%
+
+.product-footer
+  margin-top $lg
 </style>
