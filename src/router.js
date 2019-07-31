@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Product from './views/Product.vue'
+
+import Cart from '@/views/Cart.vue'
+import Home from '@/views/Home.vue'
+import Product from '@/views/Product.vue'
+
 
 Vue.use(Router)
 
@@ -29,6 +32,11 @@ export default new Router({
       props: route => ({
         productId: +route.params.productId,
       }),
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: Cart,
     },
   ],
   scrollBehavior(to, from, savedPosition) {

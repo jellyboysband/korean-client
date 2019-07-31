@@ -6,8 +6,11 @@
           VIcon.search-icon(icon="regular/search")
         input.search-input(v-model="searchText" type="search")
 
-      button.product-basket
+      router-link.product-cart-link(
+        :to="{ name: 'cart' }"
+      )
         VIcon(icon="light/shopping-bag" square)
+        span.product-cart-count(v-if="CartProductList.length") {{ CartProductList.length }}
 
     ul.promo-list
       li.promo-item(v-for="promo in promoList")
@@ -57,6 +60,7 @@ import promo1Image from '@/assets/images/promo/1.jpg'
 import promo2Image from '@/assets/images/promo/2.jpg'
 import promo3Image from '@/assets/images/promo/3.jpg'
 
+
 const FILTER_TYPE_NEW = 'new'
 const FILTER_TYPE_POPULAR = 'popular'
 const FILTER_TYPE_SALE = 'sale'
@@ -103,7 +107,11 @@ export default {
   },
 
   computed: {
-    ...mapState('product', ['BrandList', 'ProductList']),
+    ...mapState('product', [
+      'BrandList',
+      'CartProductList',
+      'ProductList',
+    ]),
 
     productListFiltered() {
       return this.brandId
@@ -202,7 +210,7 @@ export default {
         padding-left $field-height
         width 100%
 
-    .product-basket
+    .product-cart-link
       align-items center
       background-color $secondary
       border-radius $radius-md
@@ -212,8 +220,21 @@ export default {
       font-size $fs-xl
       height $field-height
       justify-content center
+      position relative
       text-align center
       width $field-height
+
+      .product-cart-count
+        background-color $tertiary
+        border-radius $radius-circle
+        top $xxs
+        box-shadow $shadow-1
+        font-size $fs-xxs
+        font-weight $fw-semi-bold
+        height 1rem
+        position absolute
+        right $xxs
+        width 1rem
 
   .promo-list
     display flex

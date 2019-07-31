@@ -1,13 +1,20 @@
 <template lang="pug">
   article#product(v-if="product")
+    header.product-header
+      a.router-back(@click="() => $router.back()")
+        VIcon(icon="light/long-arrow-left")
+
+      router-link.product-cart-link(
+        :to="{ name: 'cart' }"
+      )
+        VIcon(icon="light/shopping-bag" square)
+        span.product-cart-count {{ CartProductList.length }}
+
     figure.product-preview-container
       img.product-preview(
         :alt="`Фотография продукта ${product.name}`"
         :src="product.avatarUrl"
       )
-
-    a.router-back(@click="() => $router.back()")
-      VIcon(icon="light/long-arrow-left")
 
     main.product-body
       section.product-section
@@ -21,7 +28,6 @@
         VCollapse
           template(#trigger="{ opened }")
             h3.description-title
-              VIcon.description-icon(icon="regular/align-left" inline)
               span Описание
               VIcon.description-trigger-icon(:icon="`regular/chevron-${opened ? 'up' : 'down'}`")
 
@@ -36,8 +42,8 @@
             span.product-price-prev {{ product.price | number }} ₽
 
           section.product-count
-            button.product-count-increment(@click="count++")
-              VIcon(icon="light/plus")
+            button.product-count-decrement(@click="count = Math.max(1, count - 1)")
+              VIcon(icon="light/minus")
             input.product-count-value(
               v-model.number="count"
               inputmode="numeric"
@@ -45,8 +51,8 @@
               pattern="[1-9]*"
               type="number"
             )
-            button.product-count-decrement(@click="count = Math.max(1, count - 1)")
-              VIcon(icon="light/minus")
+            button.product-count-increment(@click="count++")
+              VIcon(icon="light/plus")
 
         button.add-to-cart Добавить в корзину
 
@@ -56,7 +62,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+  mapGetters,
+  mapState,
+} from 'vuex'
+
 
 export default {
   props: {
@@ -73,7 +83,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters('product', ['GetProduct']),
+    ...mapState('product', [
+      'CartProductList',
+    ]),
+    ...mapGetters('product', [
+      'GetProduct',
+    ]),
 
     product() {
       return this.GetProduct(this.productId)
@@ -87,24 +102,50 @@ export default {
   display grid
   position relative
 
+  .product-header
+    align-items center
+    background-color white
+    box-shadow $shadow-2
+    display flex
+    height 3.5rem
+    padding 0 $xl
+    position sticky
+    top 0
+    z-index $z-header
+
+    .router-back
+      font-size $fs-xl
+
+      @media (min-width: 600px)
+        display none
+
+    .product-cart-link
+      font-size $fs-xl
+      margin-left auto
+      position relative
+
+      .product-cart-count
+        align-items center
+        background-color $tertiary
+        border-radius $radius-circle
+        box-shadow $shadow-1
+        display flex
+        font-size $fs-xxs
+        font-weight $fw-semi-bold
+        height 1rem
+        justify-content center
+        position absolute
+        right - $xs
+        text-align center
+        top - $xxs
+        width 1rem
+
   .product-body
     background-color white
 
   @media (min-width: 600px)
     grid-template-columns 2fr 3fr
     padding 1.75rem 1.25rem 1rem
-
-  .router-back
-    color $white
-    font-size 2rem
-    left 1.25rem
-    position absolute
-    // filter drop-shadow(0 1px 2px black)
-    top 2rem
-    z-index $z-header
-
-    @media (min-width: 600px)
-      display none
 
   .product-preview-container
     border-radius $radius-md
@@ -134,9 +175,6 @@ export default {
       font-size $fs-md
       font-weight $fw-semi-bold
 
-      .description-icon
-        color $tc-3
-
       .description-trigger-icon
         margin-left auto
 
@@ -152,7 +190,7 @@ export default {
       font-size $fs-sm
 
       > p
-        margin-top $xs
+        margin-top $sm
 
   .level
     align-items center

@@ -15,6 +15,7 @@ const store = {
       description: 'Филлер для быстрого восстановления волос в ампуле',
       price: 9999,
     }],
+    CartProductList: [],
   },
 
   getters: {
@@ -23,6 +24,11 @@ const store = {
   },
 
   mutations: {
+    AddCartProductList({ CartProductList }, product, count) {
+      const cart = CartProductList.find(it => it.product === product)
+      if (cart) cart.count += count
+      else CartProductList.push({ count, product })
+    },
     SetBrandList(state, brandList = []) {
       state.BrandList = brandList
     },
