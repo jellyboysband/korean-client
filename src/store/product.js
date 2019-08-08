@@ -24,7 +24,7 @@ const store = {
   },
 
   mutations: {
-    AddCartProductList({ CartProductList }, product, count) {
+    AddCartProductList({ CartProductList }, { product, count }) {
       const cart = CartProductList.find(it => it.product === product)
       if (cart) cart.count += count
       else CartProductList.push({ count, product })

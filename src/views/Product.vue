@@ -54,7 +54,9 @@
             button.product-count-increment(@click="count++")
               VIcon(icon="light/plus")
 
-        button.add-to-cart Добавить в корзину
+        button.add-to-cart(
+          @click="addToCart"
+        ) Добавить в корзину
 
     footer.product-footer
 
@@ -65,6 +67,7 @@
 import {
   mapGetters,
   mapState,
+  mapMutations,
 } from 'vuex'
 
 
@@ -92,6 +95,18 @@ export default {
 
     product() {
       return this.GetProduct(this.productId)
+    },
+  },
+
+  methods: {
+    ...mapMutations('product', [
+      'AddCartProductList',
+    ]),
+
+    addToCart() {
+      const { product, count } = this
+      this.AddCartProductList({ product, count })
+      this.count = 1
     },
   },
 }
@@ -251,7 +266,12 @@ export default {
     height 2.75rem
     margin $md auto 0
     padding 0 $xxl
+    transition background-color .2s ease-out
+    user-select none
     width 100%
+
+    &:active
+      background-color darken($tertiary, 10%)
 
 .product-footer
   margin-top $lg
