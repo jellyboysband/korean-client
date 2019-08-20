@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Cart from '@/views/Cart.vue'
 import Home from '@/views/Home.vue'
+import OrderComplete from '@/views/OrderComplete.vue'
 import Product from '@/views/Product.vue'
 
 
@@ -37,6 +38,14 @@ export default new Router({
       path: '/cart',
       name: 'cart',
       component: Cart,
+    },
+    {
+      path: '/order/:orderId',
+      name: 'order',
+      component: OrderComplete,
+      props: route => ({
+        orderId: +route.params.orderId,
+      }),
     },
   ],
   scrollBehavior(to, from, savedPosition) {

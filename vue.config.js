@@ -35,6 +35,7 @@ module.exports = {
       stylus: {
         import: [
           path.resolve(__dirname, 'src/assets/styles/constants.styl'),
+          path.resolve(__dirname, 'src/assets/styles/mixins.styl'),
         ],
       },
     },

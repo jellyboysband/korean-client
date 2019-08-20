@@ -177,6 +177,8 @@ export default {
 
 <style lang="stylus">
 #home
+  container()
+
   .home-header
     display grid
     gap $md
@@ -227,13 +229,13 @@ export default {
       .product-cart-count
         background-color $tertiary
         border-radius $radius-circle
-        top $xxs
         box-shadow $shadow-1
         font-size $fs-xxs
         font-weight $fw-semi-bold
         height 1rem
         position absolute
         right $xxs
+        top $xxs
         width 1rem
 
   .promo-list

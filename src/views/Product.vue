@@ -100,12 +100,12 @@ export default {
 
   methods: {
     ...mapMutations('product', [
-      'AddCartProductList',
+      'AddCartProduct',
     ]),
 
     addToCart() {
       const { product, count } = this
-      this.AddCartProductList({ product, count })
+      this.AddCartProduct({ product, count })
       this.count = 1
     },
   },
@@ -117,19 +117,22 @@ export default {
   display grid
   position relative
 
+  container()
+
   .product-header
     align-items center
     background-color white
     box-shadow $shadow-2
     display flex
     height 3.5rem
-    padding 0 $xl
+    padding 0 $md
     position sticky
     top 0
     z-index $z-header
 
     .router-back
       font-size $fs-xl
+      padding $xs
 
       @media (min-width: 600px)
         display none
@@ -137,6 +140,7 @@ export default {
     .product-cart-link
       font-size $fs-xl
       margin-left auto
+      padding $xs
       position relative
 
       .product-cart-count
@@ -150,9 +154,9 @@ export default {
         height 1rem
         justify-content center
         position absolute
-        right - $xs
+        right 0
         text-align center
-        top - $xxs
+        top $xxs
         width 1rem
 
   .product-body
