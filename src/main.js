@@ -21,5 +21,6 @@ Object.entries(filters(store.getters)).forEach(([key, value]) => Vue.filter(key,
 const loadMobile = () => import('@/mobile')
 const loadDesktop = () => import('@/desktop')
 
-if (window.screen.width < 600) loadMobile()
+const isMobile = window.screen.width < 600
+if (isMobile) loadMobile()
 else loadDesktop()
