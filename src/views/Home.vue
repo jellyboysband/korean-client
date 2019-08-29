@@ -177,8 +177,6 @@ export default {
 
 <style lang="stylus">
 #home
-  container()
-
   .home-header
     display grid
     gap $md
@@ -329,7 +327,7 @@ export default {
   .product-list
     display grid
     gap $md
-    grid-template-columns repeat(auto-fill, minmax(160px, 1fr))
+    grid-template-columns repeat(auto-fill, minmax(200px, 1fr))
     padding $md $md $xxl
     scroll-behavior smooth
 

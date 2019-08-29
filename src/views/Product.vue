@@ -117,8 +117,6 @@ export default {
   display grid
   position relative
 
-  container()
-
   .product-header
     align-items center
     background-color white
@@ -133,9 +131,6 @@ export default {
     .router-back
       font-size $fs-xl
       padding $xs
-
-      @media (min-width: 600px)
-        display none
 
     .product-cart-link
       font-size $fs-xl
@@ -161,10 +156,6 @@ export default {
 
   .product-body
     background-color white
-
-  @media (min-width: 600px)
-    grid-template-columns 2fr 3fr
-    padding 1.75rem 1.25rem 1rem
 
   .product-preview-container
     border-radius $radius-md

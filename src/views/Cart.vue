@@ -98,8 +98,6 @@ $product-gap = $md
 #cart
   position relative
 
-  container()
-
   .cart-header
     align-items center
     background-color white
@@ -164,8 +162,8 @@ $product-gap = $md
         $remove-size = 1.75rem
 
         align-items center
-        background-color white
-        border .25px solid $bc-1
+        // background-color white
+        // border .25px solid $bc-1
         border-radius $radius-circle
         display flex
         height $remove-size
