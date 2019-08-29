@@ -9,14 +9,14 @@ module.exports = {
     // Use vue-cli's default rule for svg in non .vue .js .ts files
     config.module
       .rule('svg')
-      .exclude.add(path.resolve(__dirname, 'src/assets/icons'))
+      .exclude.add(path.resolve(__dirname, 'src/common/assets/icons'))
       .end();
 
     // Use our loader to handle svg imported by other files
     config.module
       .rule('svg-component')
       .test(/\.svg$/)
-      .include.add(path.resolve(__dirname, 'src/assets/icons'))
+      .include.add(path.resolve(__dirname, 'src/common/assets/icons'))
       .end()
       .use('vue')
       .loader('vue-loader')
@@ -34,7 +34,7 @@ module.exports = {
       },
       stylus: {
         import: [
-          path.resolve(__dirname, 'src/assets/styles/constants.styl'),
+          path.resolve(__dirname, 'src/common/assets/styles/constants.styl'),
         ],
       },
     },

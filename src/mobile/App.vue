@@ -16,6 +16,10 @@
 </template>
 
 <style lang="stylus">
+html
+  background-color alpha($primary, .05)
+  height 100vh
+
 #app
   display flex
   flex-direction column

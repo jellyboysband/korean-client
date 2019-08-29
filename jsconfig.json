@@ -4,9 +4,9 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
-      "@icons/*": ["src/assets/icons/*"],
-      "@images/*": ["src/assets/images/*"],
-      "@styles/*": ["src/assets/styles/*"]
+      "@icons/*": ["src/common/assets/icons/*"],
+      "@images/*": ["src/common/assets/images/*"],
+      "@styles/*": ["src/common/assets/styles/*"]
     }
   },
   "exclude": [

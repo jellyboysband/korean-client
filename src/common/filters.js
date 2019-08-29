@@ -1,4 +1,4 @@
-import { format } from '@/utils/string'
+import { format } from '@/common/utils/string'
 
 const floatOptions = Object.freeze({
   minimumFractionDigits: 2,

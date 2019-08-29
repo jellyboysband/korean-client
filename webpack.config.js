@@ -3,9 +3,9 @@ const path = require('path');
 module.exports = {
   resolve: {
     alias: {
-      '@icons': path.resolve('./src/assets/icons'),
-      '@images': path.resolve('./src/assets/images'),
-      '@styles': path.resolve('./src/assets/styles'),
+      '@icons': path.resolve('./src/common/assets/icons'),
+      '@images': path.resolve('./src/common/assets/images'),
+      '@styles': path.resolve('./src/common/assets/styles'),
     },
   },
   // output: {

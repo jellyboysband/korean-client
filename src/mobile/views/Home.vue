@@ -56,9 +56,9 @@
 import Fuse from 'fuse.js'
 import { mapState } from 'vuex'
 
-import promo1Image from '@/assets/images/promo/1.jpg'
-import promo2Image from '@/assets/images/promo/2.jpg'
-import promo3Image from '@/assets/images/promo/3.jpg'
+import promo1Image from '@/common/assets/images/promo/1.jpg'
+import promo2Image from '@/common/assets/images/promo/2.jpg'
+import promo3Image from '@/common/assets/images/promo/3.jpg'
 
 
 const FILTER_TYPE_NEW = 'new'

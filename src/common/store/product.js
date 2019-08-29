@@ -1,4 +1,4 @@
-import services from '@/services'
+import services from '@/common/services'
 
 const store = {
   namespaced: true,

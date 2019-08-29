@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import product from '@/store/product'
-import lang from '@/store/lang'
+import product from '@/common/store/product'
+import lang from '@/common/store/lang'
 
 Vue.use(Vuex)
 

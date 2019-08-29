@@ -1,25 +1,25 @@
 import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import filters from './filters'
-import './registerServiceWorker'
-import '@styles/index.styl'
+import store from '@/common/store'
+import filters from '@/common/filters'
+import '@/registerServiceWorker'
 
-import VCollapse from '@/elements/VCollapse.vue'
-import VIcon from '@/elements/VIcon.vue'
+import VCollapse from '@/common/elements/VCollapse.vue'
+import VIcon from '@/common/elements/VIcon.vue'
+
+import '@/common/assets/styles/index.styl'
+
+
+Vue.config.productionTip = false
+
+Vue.component('VCollapse', VCollapse)
+Vue.component('VIcon', VIcon)
 
 store.commit('SetLang', 'ru' || window.localStorage.lang || navigator.language || navigator.userLanguage)
 store.dispatch('Init')
 Object.entries(filters(store.getters)).forEach(([key, value]) => Vue.filter(key, value))
 
-Vue.component('VCollapse', VCollapse)
-Vue.component('VIcon', VIcon)
+const loadMobile = () => import('@/mobile')
+const loadDesktop = () => import('@/desktop')
 
-Vue.config.productionTip = false
-
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+if (window.screen.width < 600) loadMobile()
+else loadDesktop()
