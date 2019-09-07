@@ -123,7 +123,7 @@ $product-gap = $md
         background-color $bc-1
         bottom 0
         content ''
-        height .75px
+        height .05rem
         left $product-preview-size + $md + $md
         position absolute
         right 0
@@ -180,7 +180,7 @@ $product-gap = $md
         $count-item-size = 1.75rem
 
         background-color $white
-        border .75px solid $bc-1
+        border .05rem solid $bc-1
         border-radius $radius-sm
         display flex
         grid-area count
@@ -212,7 +212,7 @@ $product-gap = $md
 
   .cart-separator
     align-self stretch
-    border-left .75px solid $bc-1
+    border-left .05rem solid $bc-1
     margin 0 $md
 
   .cart-footer
@@ -242,7 +242,7 @@ $product-gap = $md
 
     .cart-user-phone
       background-color white
-      border .75px solid $bc-1
+      border .05rem solid $bc-1
       border-radius $radius-md
       height 2.75rem
       padding 0 $sm

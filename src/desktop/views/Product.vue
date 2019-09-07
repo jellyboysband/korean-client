@@ -169,7 +169,7 @@ export default {
     $count-item-size = 2.75rem
 
     background-color $white
-    border .75px solid $bc-1
+    border .05rem solid $bc-1
     border-radius $radius-md
     display flex
     overflow hidden

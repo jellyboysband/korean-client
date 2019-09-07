@@ -6,6 +6,15 @@
       )
         img.header-logo
 
+      form.search-field(@submit.prevent="onSearchSubmit")
+        .search-icon-container
+          VIcon.search-icon(icon="regular/search")
+        input.search-input(
+          v-model="searchText"
+          placeholder="Поиск по товарам"
+          type="search"
+        )
+
       RouterLink.product-cart-link(
         :to="{ name: 'cart' }"
       )
@@ -45,6 +54,17 @@ export default {
       'CartProductList',
     ]),
   },
+
+  methods: {
+    onSearchSubmit() {
+      this.$router.push({
+        name: 'home',
+        query: {
+          search: this.searchText,
+        },
+      })
+    },
+  },
 }
 </script>
 
@@ -62,6 +82,7 @@ html
   position relative
 
 #header
+  $field-height = 2.75rem
   container()
 
   align-items center
@@ -74,11 +95,33 @@ html
   z-index 500
 
   .header-logo-link
-    margin-right auto
+    margin-right $xxl
+
+  .search-field
+    background-color white
+    border-radius $radius-circle
+    border .05rem solid $bc-1
+    display flex
+    height $field-height
+    position relative
+
+    .search-icon-container
+      align-items center
+      display flex
+      height $field-height
+      justify-content center
+      position absolute
+      width $field-height
+
+      .search-icon
+        color $tc-3
+
+    .search-input
+      color #181818
+      padding-left $field-height
+      width 100%
 
   .product-cart-link
-    $field-height = 2.75rem
-
     align-items center
     background-color $secondary
     border-radius $radius-md
@@ -109,7 +152,7 @@ html
   container()
 
   background-color white
-  border-top .75px solid $bc-1
+  border-top .05rem solid $bc-1
   color #363636
   display flex
   margin-top auto

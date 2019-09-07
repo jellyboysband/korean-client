@@ -4,7 +4,11 @@
       form.search-field(@submit.prevent="onSearchSubmit")
         .search-icon-container
           VIcon.search-icon(icon="regular/search")
-        input.search-input(v-model="searchText" type="search")
+        input.search-input(
+          v-model="searchText"
+          placeholder="Поиск по товарам"
+          type="search"
+        )
 
       RouterLink.product-cart-link(
         :to="{ name: 'cart' }"

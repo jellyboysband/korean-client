@@ -5,7 +5,7 @@
         a.promo-link
           img.promo-preview(:src="promo")
 
-    ul.filter-list
+    ul.filter-list(v-if="!search")
       li.filter-item(
         v-for="type in typeList"
         :key="type.id"
@@ -75,7 +75,6 @@ export default {
         promo2Image,
         promo3Image,
       ],
-      searchText: '',
       typeList: Object.freeze([
         {
           id: FILTER_TYPE_NEW,
@@ -137,15 +136,6 @@ export default {
     },
   },
 
-  watch: {
-    search: {
-      handler(curr) {
-        this.searchText = curr
-      },
-      immediate: true,
-    },
-  },
-
   methods: {
     onFilterClick(event) {
       event.target.scrollIntoView({
@@ -153,10 +143,6 @@ export default {
         block: 'nearest',
         inline: 'center',
       })
-    },
-
-    onSearchSubmit() {
-      this.$router.replace({ query: { ...this.$route.query, search: this.searchText } })
     },
   },
 }
