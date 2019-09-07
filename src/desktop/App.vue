@@ -1,15 +1,10 @@
 <template lang="pug">
   #app
     header#header
-      RouterLink.header-home-link(
+      RouterLink.header-logo-link(
         :to="{ name: 'home' }"
       )
         img.header-logo
-
-      form.search-field(@submit.prevent="onSearchSubmit")
-        .search-icon-container
-          VIcon.search-icon(icon="regular/search")
-        input.search-input(v-model="searchText" type="search")
 
       RouterLink.product-cart-link(
         :to="{ name: 'cart' }"
@@ -20,15 +15,17 @@
     RouterView
 
     footer#footer
-      h6.footer-title Контакты
-      address.contact
-        a.contact-phone(href="tel:+79533737385") +7 (953) 373-73-85
-        a.contact-email(href="mailto:tandem.beauty178@gmail.com") tandem.beauty178@gmail.com
+      section.footer-section
+        h6.footer-title Контакты
+        address.contact
+          a.contact-phone(href="tel:+79533737385") +7 (953) 373-73-85
+          a.contact-email(href="mailto:tandem.beauty178@gmail.com") tandem.beauty178@gmail.com
 
-      h6.footer-title Мы в соц. сетях
-      section.social
-        VIcon.social-icon(icon="social/facebook-square")
-        VIcon.social-icon(icon="social/instagram")
+      section.footer-section
+        h6.footer-title Мы в соц. сетях
+        .social
+          VIcon.social-icon(icon="social/facebook-square")
+          VIcon.social-icon(icon="social/instagram")
 
 </template>
 
@@ -44,7 +41,7 @@ export default {
   },
 
   computed: {
-    ...mapState([
+    ...mapState('product', [
       'CartProductList',
     ]),
   },
@@ -52,24 +49,75 @@ export default {
 </script>
 
 <style lang="stylus">
+@import '~@/common/assets/styles/mixins.styl'
+
 html
   background-color alpha($primary, .05)
+  font-size 20px
 
 #app
   display flex
   flex-direction column
+  min-height 100vh
+  position relative
 
 #header
+  container()
+
+  align-items center
   background-color white
   border-bottom 1px solid $bc-1
-  padding 0 calc(50% - 300px)
+  display flex
+  height 4rem
+  position sticky
+  top 0
+  z-index 500
+
+  .header-logo-link
+    margin-right auto
+
+  .product-cart-link
+    $field-height = 2.75rem
+
+    align-items center
+    background-color $secondary
+    border-radius $radius-md
+    box-shadow $shadow-1
+    color $white
+    display flex
+    font-size $fs-xl
+    height $field-height
+    justify-content center
+    margin-left auto
+    position relative
+    text-align center
+    width $field-height
+
+    .product-cart-count
+      background-color $tertiary
+      border-radius $radius-circle
+      box-shadow $shadow-1
+      font-size $fs-xxs
+      font-weight $fw-semi-bold
+      height 1rem
+      position absolute
+      right $xxs
+      top $xxs
+      width 1rem
 
 #footer
+  container()
+
   background-color white
   border-top .75px solid $bc-1
   color #363636
+  display flex
   margin-top auto
-  padding $xxl
+  padding-bottom $xxl
+  padding-top $xxl
+
+  .footer-section:not(:first-child)
+    margin-left $xxl
 
   .footer-title
     font-size $fs-sm

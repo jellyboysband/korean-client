@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Cart from '@/mobile/views/Cart.vue'
+import Cart from '@/desktop/views/Cart.vue'
 import Home from '@/desktop/views/Home.vue'
 import OrderComplete from '@/mobile/views/OrderComplete.vue'
-import Product from '@/mobile/views/Product.vue'
+import Product from '@/desktop/views/Product.vue'
 
 
 Vue.use(Router)

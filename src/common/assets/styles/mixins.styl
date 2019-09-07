@@ -1,0 +1,18 @@
+mask()
+  bottom 0
+  content ''
+  left 0
+  position absolute
+  right 0
+  top 0
+
+container($padding = 1.25rem)
+  $max-width = 1000px
+  $query = 'calc(50vw - %s + %s)' % (($max-width * .5) $padding)
+
+  padding-left $query
+  padding-right $query
+
+  @media only screen and (max-width: 'calc(%s + %s)' % ($max-width $padding))
+    padding-left $padding
+    padding-right $padding
