@@ -29,9 +29,6 @@ module.exports = {
 
   css: {
     loaderOptions: {
-      css: {
-        localIdentName: '[name]-[hash]',
-      },
       stylus: {
         import: [
           path.resolve(__dirname, 'src/common/assets/styles/constants.styl'),
