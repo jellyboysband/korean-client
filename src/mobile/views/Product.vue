@@ -4,7 +4,7 @@
       a.router-back(@click="() => $router.back()")
         VIcon(icon="light/long-arrow-left")
 
-      router-link.product-cart-link(
+      RouterLink.product-cart-link(
         :to="{ name: 'cart' }"
       )
         VIcon(icon="light/shopping-bag" square)

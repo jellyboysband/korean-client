@@ -18,7 +18,7 @@
             )
 
             header.cart-product-header
-              router-link.cart-product-name(
+              RouterLink.cart-product-name(
                 :to="{ name: 'product', params: { productId: cartProduct.product.id } }"
               ) {{ cartProduct.product.name }}
               button.cart-product-remove(

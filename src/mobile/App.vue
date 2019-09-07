@@ -1,6 +1,6 @@
 <template lang="pug">
   #app
-    router-view
+    RouterView
 
     footer#footer
       h6.footer-title Контакты

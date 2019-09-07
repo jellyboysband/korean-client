@@ -1,7 +1,7 @@
 <template lang="pug">
   #app
     header#header
-      router-link.header-home-link(
+      RouterLink.header-home-link(
         :to="{ name: 'home' }"
       )
         img.header-logo
@@ -11,13 +11,13 @@
           VIcon.search-icon(icon="regular/search")
         input.search-input(v-model="searchText" type="search")
 
-      router-link.product-cart-link(
+      RouterLink.product-cart-link(
         :to="{ name: 'cart' }"
       )
         VIcon(icon="light/shopping-bag" square)
         span.product-cart-count(v-if="CartProductList.length") {{ CartProductList.length }}
 
-    router-view
+    RouterView
 
     footer#footer
       h6.footer-title Контакты
@@ -31,6 +31,25 @@
         VIcon.social-icon(icon="social/instagram")
 
 </template>
+
+<script>
+import { mapState } from 'vuex'
+
+
+export default {
+  data() {
+    return {
+      searchText: '',
+    }
+  },
+
+  computed: {
+    ...mapState([
+      'CartProductList',
+    ]),
+  },
+}
+</script>
 
 <style lang="stylus">
 html

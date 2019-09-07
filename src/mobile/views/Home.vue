@@ -6,7 +6,7 @@
           VIcon.search-icon(icon="regular/search")
         input.search-input(v-model="searchText" type="search")
 
-      router-link.product-cart-link(
+      RouterLink.product-cart-link(
         :to="{ name: 'cart' }"
       )
         VIcon(icon="light/shopping-bag" square)
@@ -24,7 +24,7 @@
         :class="{ active: type.id === typeId }"
         @click="onFilterClick"
       )
-        router-link.filter-link(
+        RouterLink.filter-link(
           :to="{ query: { ...$route.query, type: type.id } }"
           replace
         ) {{ type.name }}
@@ -34,7 +34,7 @@
         v-for="product in ProductList"
         :key="product.id"
       )
-        router-link.product-link(:to="{ name: 'product', params: { productId: product.id } }")
+        RouterLink.product-link(:to="{ name: 'product', params: { productId: product.id } }")
           section.product-card
             figure.product-preview-container
               img.product-preview(

@@ -2,7 +2,7 @@
   article#order-complete
     h1.order-complete-title Спасибо, ваш заказ оформлен
     p.order-complete-text Номер вашего заказа {{ orderId }}
-    router-link.order-complete-back(
+    RouterLink.order-complete-back(
       :to="{ name: 'home' }"
     ) Продолжить покупки
 
