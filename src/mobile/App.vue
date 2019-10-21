@@ -1,17 +1,27 @@
 <template lang="pug">
-  #app
-    RouterView
+#app
+  RouterView
 
-    footer#footer
-      h6.footer-title Контакты
-      address.contact
-        a.contact-phone(href="tel:+79533737385") +7 (953) 373-73-85
-        a.contact-email(href="mailto:tandem.beauty178@gmail.com") tandem.beauty178@gmail.com
+  footer#footer
+    h6.footer-title Контакты
+    address.contact
+      a.contact-phone(href="tel:+79533737385") +7 (953) 373-73-85
+      a.contact-email(href="mailto:tandem.beauty178@gmail.com") tandem.beauty178@gmail.com
 
-      h6.footer-title Мы в соц. сетях
-      section.social
+    h6.footer-title Мы в соц. сетях
+    section.social
+      //- a.social-link
         VIcon.social-icon(icon="social/facebook-square")
+      a.social-link(
+        href="https://www.instagram.com/_beautytandem/?igshid=1elvijt8jm4w9"
+        ref="noopener noreferrer"
+        target="_blank"
+      )
         VIcon.social-icon(icon="social/instagram")
+
+  Notifications(
+    position="bottom right"
+  )
 
 </template>
 

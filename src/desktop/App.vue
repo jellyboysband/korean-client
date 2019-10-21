@@ -1,40 +1,48 @@
 <template lang="pug">
-  #app
-    header#header
-      RouterLink.header-logo-link(
-        :to="{ name: 'home' }"
+#app
+  header#header
+    //- RouterLink.header-logo-link(
+    //-   :to="{ name: 'home' }"
+    //- )
+    //-   img.header-logo
+
+    form.search-field(@submit.prevent="onSearchSubmit")
+      .search-icon-container
+        VIcon.search-icon(icon="regular/search")
+      input.search-input(
+        v-model="searchText"
+        placeholder="Поиск по товарам"
+        type="search"
       )
-        img.header-logo
 
-      form.search-field(@submit.prevent="onSearchSubmit")
-        .search-icon-container
-          VIcon.search-icon(icon="regular/search")
-        input.search-input(
-          v-model="searchText"
-          placeholder="Поиск по товарам"
-          type="search"
-        )
+    RouterLink.product-cart-link(
+      :to="{ name: 'cart' }"
+    )
+      VIcon(icon="light/shopping-bag" square)
+      span.product-cart-count(v-if="CartProductList.length") {{ CartProductList.length }}
 
-      RouterLink.product-cart-link(
-        :to="{ name: 'cart' }"
-      )
-        VIcon(icon="light/shopping-bag" square)
-        span.product-cart-count(v-if="CartProductList.length") {{ CartProductList.length }}
+  RouterView
 
-    RouterView
+  footer#footer
+    section.footer-section
+      h6.footer-title Контакты
+      address.contact
+        a.contact-phone(href="tel:+79533737385") +7 (953) 373-73-85
+        a.contact-email(href="mailto:tandem.beauty178@gmail.com") tandem.beauty178@gmail.com
 
-    footer#footer
-      section.footer-section
-        h6.footer-title Контакты
-        address.contact
-          a.contact-phone(href="tel:+79533737385") +7 (953) 373-73-85
-          a.contact-email(href="mailto:tandem.beauty178@gmail.com") tandem.beauty178@gmail.com
-
-      section.footer-section
-        h6.footer-title Мы в соц. сетях
-        .social
+    section.footer-section
+      h6.footer-title Мы в соц. сетях
+      .social
+        //- a.social-link
           VIcon.social-icon(icon="social/facebook-square")
+        a.social-link(
+          href="https://www.instagram.com/_beautytandem/?igshid=1elvijt8jm4w9"
+          ref="noopener noreferrer"
+          target="_blank"
+        )
           VIcon.social-icon(icon="social/instagram")
+
+  Notifications
 
 </template>
 
@@ -73,7 +81,7 @@ export default {
 
 html
   background-color alpha($primary, .05)
-  font-size 20px
+  font-size 18px
 
 #app
   display flex

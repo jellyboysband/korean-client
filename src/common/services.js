@@ -1,8 +1,47 @@
 import wretch from 'wretch'
 
-const request = wretch('/api')
+import Brand from '@/common/models/Brand'
+import Product from '@/common/models/Product'
+
+
+const request = wretch(`${process.env.VUE_APP_API_URL}/api`)
+
 
 export default {
-  getBrandList: () => request.url('/brand').get().json(),
-  getProductList: () => request.url('/products').get().json(),
+  createOrder: ({ phone, list }) => request
+    .url('/order')
+    .post({
+      phone,
+      list,
+    })
+    .json(),
+
+  getBrandList: () => request
+    .url('/brands')
+    // .query({
+    //   limit: 100,
+    //   offset: 0,
+    //   order: ['id'],
+    // })
+    .get()
+    .json()
+    .then(response => response.list.map(brand => new Brand(brand))),
+
+  getProductList: ({ brandId } = {}) => request
+    .url('/products')
+    .query(JSON.parse(JSON.stringify({
+      brandId,
+      // limit: 100,
+      // offset: 0,
+      // order: ['id'],
+    })))
+    .get()
+    .json()
+    .then(response => response.list.map(product => new Product(product))),
+
+  getProduct: ({ productId }) => request
+    .url(`/products/${productId}`)
+    .get()
+    .json()
+    .then(response => new Product(response)),
 }

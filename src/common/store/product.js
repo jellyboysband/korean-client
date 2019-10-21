@@ -1,32 +1,12 @@
 import services from '@/common/services'
 
+
 const store = {
   namespaced: true,
 
   state: {
     BrandList: [],
-    ProductList: [
-      {
-        id: 1,
-        brand: {
-          name: 'La\'Dor',
-        },
-        avatarUrl: 'https://images.ua.prom.st/1380248946_w640_h640_filler-dlya-volos.jpg',
-        name: 'Perfect Hair FILL-UP',
-        description: 'Филлер для быстрого восстановления волос в ампуле',
-        price: 9999,
-      },
-      {
-        id: 2,
-        brand: {
-          name: 'La\'Dor',
-        },
-        avatarUrl: 'https://images.ua.prom.st/1380248946_w640_h640_filler-dlya-volos.jpg',
-        name: 'Perfect Hair FILL-UP',
-        description: 'Филлер для быстрого восстановления волос в ампуле',
-        price: 9999,
-      },
-    ],
+    ProductList: [],
     CartProductList: [],
   },
 
@@ -36,10 +16,13 @@ const store = {
   },
 
   mutations: {
-    AddCartProduct({ CartProductList }, { product, count }) {
-      const cart = CartProductList.find(it => it.product === product)
+    AddCartProduct({ CartProductList }, { productId, count }) {
+      const cart = CartProductList.find(it => it.productId === productId)
       if (cart) cart.count += count
-      else CartProductList.push({ count, product })
+      else CartProductList.push({ count, productId })
+    },
+    ClearCardProductList() {
+      this.CartProductList = []
     },
     RemoveCartProduct({ CartProductList }, cardProduct) {
       const index = CartProductList.indexOf(cardProduct)
@@ -54,6 +37,15 @@ const store = {
   },
 
   actions: {
+    async CreateOrder({ commit, state }, { phone }) {
+      const data = await services.createOrder({
+        phone,
+        list: state.CartProductList,
+      })
+      commit('ClearCardProductList')
+      return data.orderId
+    },
+
     async LoadBrandList({ commit }) {
       const data = await services.getBrandList()
       commit('SetBrandList', data)

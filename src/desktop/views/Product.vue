@@ -1,46 +1,45 @@
 <template lang="pug">
-  article#product(v-if="product")
-    figure.product-preview-container
-      img.product-preview(
-        :alt="`Фотография продукта ${product.name}`"
-        :src="product.avatarUrl"
-      )
+article#product(v-if="product")
+  figure.product-preview-container
+    img.product-preview(
+      :alt="`Фотография продукта ${product.name}`"
+      :src="product.avatarUrl"
+    )
 
-    main.product-body
-      section.product-section
-        h2.product-title
-          span.product-brand {{ product.brand.name }}
-          | &nbsp;
-          span.product-name {{ product.name }}
-        p.product-description {{ product.description }}
+  main.product-body
+    section.product-section
+      h2.product-title
+        span.product-brand {{ product.brand.name }}
+        | &nbsp;
+        span.product-name {{ product.name }}
+      //- p.product-description {{ product.description }}
 
-      section.product-section
-        .product-description
-          p Филлер для восстановления структуры волос Lador Perfect Hair Filler, содержащий в своём составе керамиды, LPP-кератин, PPT-коллаген, шелковые аминокислоты. Филлер за одну процедуру мгновенно преобразит ваши волосы, сделает их невероятно сильным, здоровыми, шелковистыми и блестящими! Филлер нормализует PH балланс кожи головы, лечит волосы ослабленные химией или окрашиванием, улучшает общее состояние волос. Волосы становятся эластичными, увлажненными (пропадает эффект сухих концов), гладкими. Филлер проникает внутрь волоса, сглаживает чешуйки, дефекты и повреждения структуры, делает каждый отдельный волос более гладким.
-          p Восстанавливающий филлер для волос даёт ощутимый результат уже после первого применения. Применять филлеры можно в виде курса процедур (оптимально 2 раза в неделю) или по мере необходимости, когда вам нужно особенно хорошо выглядеть.
+    section.product-section
+      .product-description {{ product.description }}
+      .product-apply {{ product.apply }}
 
-      section.product-section
-        .level
-          section.product-count
-            button.product-count-decrement(@click="count = Math.max(1, count - 1)")
-              VIcon(icon="light/minus")
-            input.product-count-value(
-              v-model.number="count"
-              inputmode="numeric"
-              min="1"
-              pattern="[1-9]*"
-              type="number"
-            )
-            button.product-count-increment(@click="count++")
-              VIcon(icon="light/plus")
+    section.product-section
+      .level
+        section.product-count
+          button.product-count-decrement(@click="count = Math.max(1, count - 1)")
+            VIcon(icon="light/minus")
+          input.product-count-value(
+            v-model.number="count"
+            inputmode="numeric"
+            min="1"
+            pattern="[1-9]*"
+            type="number"
+          )
+          button.product-count-increment(@click="count++")
+            VIcon(icon="light/plus")
 
-          p.product-price
-            span.product-price-curr {{ product.price | number }} ₽
-            span.product-price-prev {{ product.price | number }} ₽
+        p.product-price
+          span.product-price-curr {{ product.price | number }} ₽
+          //- span.product-price-prev {{ product.price | number }} ₽
 
-        button.add-to-cart(
-          @click="addToCart"
-        ) Добавить в корзину
+      button.add-to-cart(
+        @click="addToCart"
+      ) Добавить в корзину
 
 </template>
 
@@ -86,7 +85,12 @@ export default {
 
     addToCart() {
       const { product, count } = this
-      this.AddCartProduct({ product, count })
+      this.AddCartProduct({ productId: product.id, count })
+
+      this.$notify({
+        title: 'Товар добавлен в корзину',
+      })
+
       this.count = 1
     },
   },
@@ -129,8 +133,12 @@ export default {
       // margin-bottom $sm
 
     .product-description
-      color $tc-2
+    .product-apply
+      // color $tc-2
       font-size $fs-sm
+
+      &:not(:first-child)
+        margin-top $md
 
       > p:not(:first-child)
         margin-top $sm

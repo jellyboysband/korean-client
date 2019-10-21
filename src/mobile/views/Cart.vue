@@ -1,67 +1,73 @@
 <template lang="pug">
-  article#cart
-    header.cart-header
-      h1.cart-title Корзина покупок
+article#cart
+  header.cart-header
+    h1.cart-title Корзина покупок
 
-      a.cart-close(@click="() => $router.back()")
-        VIcon(icon="light/times")
+    a.cart-close(@click="() => $router.back()")
+      VIcon(icon="light/times")
 
-    main.cart-body
-      ul.cart-product-list(v-if="CartProductList.length")
-        li.cart-product-item(
-          v-for="cartProduct in CartProductList"
-          :key="cartProduct.product.id"
-        )
-          section.cart-product-container
-            img.cart-product-preview(
-              :src="cartProduct.product.avatarUrl"
-            )
-
-            header.cart-product-header
-              RouterLink.cart-product-name(
-                :to="{ name: 'product', params: { productId: cartProduct.product.id } }"
-              ) {{ cartProduct.product.name }}
-              button.cart-product-remove(
-                @click="RemoveCartProduct(cartProduct)"
-              )
-                VIcon(icon="regular/trash")
-
-            footer.cart-product-footer
-              p.cart-product-price
-                span.cart-product-price-curr {{ cartProduct.product.price | number }} ₽
-                span.cart-product-price-prev {{ cartProduct.product.price | number }} ₽
-
-              section.cart-product-count
-                button.cart-product-count-decrement(@click="cartProduct.count = Math.max(1, cartProduct.count - 1)")
-                  VIcon(icon="light/minus")
-                span.cart-product-count-value {{ cartProduct.count }}
-                button.cart-product-count-increment(@click="cartProduct.count++")
-                  VIcon(icon="light/plus")
-
-      p.cart-product-list-empty(v-else) Ваша корзина пуста
-
-    hr.cart-separator
-
-    footer.cart-footer
-      p.cart-amount
-        span.cart-amount-text Сумма заказа:
-        span.cart-amount-value {{ cartAmount | number }} ₽
-      label.cart-user-phone-label Контактный телефон:
-      input.cart-user-phone(
-        v-model="phone"
-        autocomplete
-        inputmode="tel"
-        placeholder="+7 (900) 000 00-00"
-        type="tel"
+  main.cart-body
+    ul.cart-product-list(v-if="CartProductList.length")
+      li.cart-product-item(
+        v-for="cartProduct in CartProductList"
+        :key="cartProduct.productId"
       )
-      button.cart-buy(
-        :disabled="!CartProductList.length"
-      ) Оформить заказ
+        section.cart-product-container
+          img.cart-product-preview(
+            :src="GetProduct(cartProduct.productId).avatarUrl"
+          )
+
+          header.cart-product-header
+            RouterLink.cart-product-name(
+              :to="{ name: 'product', params: { productId: cartProduct.productId } }"
+            ) {{ GetProduct(cartProduct.productId).name }}
+            button.cart-product-remove(
+              @click="RemoveCartProduct(cartProduct)"
+            )
+              VIcon(icon="regular/trash")
+
+          footer.cart-product-footer
+            p.cart-product-price
+              span.cart-product-price-curr {{ GetProduct(cartProduct.productId).price | number }} ₽
+              //- span.cart-product-price-prev {{ GetProduct(cartProduct.productId).price | number }} ₽
+
+            section.cart-product-count
+              button.cart-product-count-decrement(@click="cartProduct.count = Math.max(1, cartProduct.count - 1)")
+                VIcon(icon="light/minus")
+              span.cart-product-count-value {{ cartProduct.count }}
+              button.cart-product-count-increment(@click="cartProduct.count++")
+                VIcon(icon="light/plus")
+
+    p.cart-product-list-empty(v-else) Ваша корзина пуста
+
+  hr.cart-separator
+
+  footer.cart-footer
+    p.cart-amount
+      span.cart-amount-text Сумма заказа:
+      span.cart-amount-value {{ cartAmount | number }} ₽
+    label.cart-user-phone-label Контактный телефон:
+    input.cart-user-phone(
+      v-model="phone"
+      autocomplete
+      inputmode="tel"
+      placeholder="+7 (900) 000 00-00"
+      type="tel"
+    )
+    button.cart-buy(
+      :disabled="!CartProductList.length || !phone"
+      type="submit"
+    ) Оформить заказ
 
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import {
+  mapState,
+  mapGetters,
+  mapMutations,
+  mapActions,
+} from 'vuex'
 
 
 export default {
@@ -76,16 +82,39 @@ export default {
       'CartProductList',
     ]),
 
+    ...mapGetters('product', [
+      'GetProduct',
+    ]),
+
     cartAmount() {
-      return this.CartProductList.reduce((acc, curr) => acc + curr.count * curr.product.price, 0)
+      return this.CartProductList.reduce((acc, curr) => acc + curr.count * this.GetProduct(curr.productId).price, 0)
     },
   },
 
   methods: {
     ...mapMutations('product', [
-      'AddCartProduct',
+      'CreateOrder',
       'RemoveCartProduct',
     ]),
+
+    ...mapActions('product', [
+      'CreateOrder',
+    ]),
+
+    createOrder() {
+      this.CreateOrder({ phone: this.phone })
+        .then(orderId => this.$router.push({
+          name: 'order',
+          params: {
+            orderId,
+          },
+        }))
+        .catch(() => this.$notify({
+          title: 'Не удалось сформировать заказ',
+          text: 'Пожалуйста, попробуйте позднее или обратитесь в службу поддержки',
+          type: 'error',
+        }))
+    },
   },
 }
 </script>
@@ -269,6 +298,6 @@ $product-gap = $md
         background-color darken($tertiary, 10%)
 
       &:disabled
-        background-color lighten($tertiary, 10%)
+        background-color lighten($tertiary, 30%)
         box-shadow none
 </style>

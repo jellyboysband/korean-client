@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import Notifications from 'vue-notification'
+
 import store from '@/common/store'
 import filters from '@/common/filters'
 import '@/registerServiceWorker'
@@ -13,6 +15,10 @@ Vue.config.productionTip = false
 
 Vue.component('VCollapse', VCollapse)
 Vue.component('VIcon', VIcon)
+
+Vue.use(Notifications, {
+  componentName: 'Notifications',
+})
 
 store.commit('SetLang', 'ru' || window.localStorage.lang || navigator.language || navigator.userLanguage)
 store.dispatch('Init')

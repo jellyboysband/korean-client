@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import Cart from '@/desktop/views/Cart.vue'
 import Home from '@/desktop/views/Home.vue'
-import OrderComplete from '@/mobile/views/OrderComplete.vue'
+import OrderComplete from '@/desktop/views/OrderComplete.vue'
 import Product from '@/desktop/views/Product.vue'
 
 

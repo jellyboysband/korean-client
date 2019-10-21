@@ -1,42 +1,42 @@
 <template lang="pug">
-  article#home
-    //- ul.promo-list
-      li.promo-item(v-for="promo in promoList")
-        a.promo-link
-          img.promo-preview(:src="promo")
+article#home
+  //- ul.promo-list
+    li.promo-item(v-for="promo in promoList")
+      a.promo-link
+        img.promo-preview(:src="promo")
 
-    ul.filter-list(v-if="!search")
-      li.filter-item(
-        v-for="type in typeList"
-        :key="type.id"
-        :class="{ active: type.id === typeId }"
-        @click="onFilterClick"
-      )
-        RouterLink.filter-link(
-          :to="{ query: { ...$route.query, type: type.id } }"
-          replace
-        ) {{ type.name }}
+  //- ul.filter-list(v-if="!search")
+    li.filter-item(
+      v-for="type in typeList"
+      :key="type.id"
+      :class="{ active: type.id === typeId }"
+      @click="onFilterClick"
+    )
+      RouterLink.filter-link(
+        :to="{ query: { ...$route.query, type: type.id } }"
+        replace
+      ) {{ type.name }}
 
-    ul.product-list
-      li.product-item(
-        v-for="product in ProductList"
-        :key="product.id"
-      )
-        RouterLink.product-link(:to="{ name: 'product', params: { productId: product.id } }")
-          section.product-card
-            figure.product-preview-container
-              img.product-preview(
-                :alt="`Фотография продукта ${product.name}`"
-                :src="product.avatarUrl"
-              )
-            main.product-info
-              .product-sale -13%
-              span.product-place {{ product.place }}
-              h6.product-name {{ product.brand.name }} {{ product.name }}
-              p.product-description {{ product.description }}
-              p.product-price
-                span.product-price-curr {{ product.price | number }} ₽
-                span.product-price-prev {{ product.price | number }} ₽
+  ul.product-list
+    li.product-item(
+      v-for="product in ProductList"
+      :key="product.id"
+    )
+      RouterLink.product-link(:to="{ name: 'product', params: { productId: product.id } }")
+        section.product-card
+          figure.product-preview-container
+            img.product-preview(
+              :alt="`Фотография продукта ${product.name}`"
+              :src="product.avatarUrl"
+            )
+          main.product-info
+            //- .product-sale -13%
+            span.product-place {{ product.place }}
+            h6.product-name {{ product.brand.name }} {{ product.name }}
+            p.product-description {{ product.description }}
+            p.product-price
+              span.product-price-curr {{ product.price | number }} ₽
+              //- span.product-price-prev {{ product.price | number }} ₽
 </template>
 
 <script>
