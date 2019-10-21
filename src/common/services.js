@@ -14,7 +14,8 @@ export default {
       phone,
       list,
     })
-    .json(),
+    .json()
+    .then(response => response.id),
 
   getBrandList: () => request
     .url('/brands')

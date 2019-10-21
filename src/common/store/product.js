@@ -21,8 +21,8 @@ const store = {
       if (cart) cart.count += count
       else CartProductList.push({ count, productId })
     },
-    ClearCardProductList() {
-      this.CartProductList = []
+    ClearCardProductList(state) {
+      state.CartProductList = []
     },
     RemoveCartProduct({ CartProductList }, cardProduct) {
       const index = CartProductList.indexOf(cardProduct)
@@ -38,12 +38,12 @@ const store = {
 
   actions: {
     async CreateOrder({ commit, state }, { phone }) {
-      const data = await services.createOrder({
+      const orderId = await services.createOrder({
         phone,
         list: state.CartProductList,
       })
       commit('ClearCardProductList')
-      return data.orderId
+      return orderId
     },
 
     async LoadBrandList({ commit }) {

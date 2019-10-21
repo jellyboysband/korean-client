@@ -19,7 +19,7 @@ article#home
 
   ul.product-list
     li.product-item(
-      v-for="product in ProductList"
+      v-for="product in productListSearched"
       :key="product.id"
     )
       RouterLink.product-link(:to="{ name: 'product', params: { productId: product.id } }")
@@ -116,14 +116,14 @@ export default {
           },
           {
             name: 'brand.name',
-            weight: 0.4,
-          },
-          {
-            name: 'apply',
-            weight: 0.1,
+            weight: 0.3,
           },
           {
             name: 'description',
+            weight: 0.2,
+          },
+          {
+            name: 'apply',
             weight: 0.1,
           },
         ],

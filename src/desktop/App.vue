@@ -63,14 +63,39 @@ export default {
     ]),
   },
 
+  watch: {
+    '$route.query.search': {
+      handler(curr) {
+        this.searchText = curr
+      },
+      immediate: true,
+    },
+  },
+
   methods: {
     onSearchSubmit() {
       this.$router.push({
         name: 'home',
         query: {
+          ...(this.$route.name === 'home' && this.$route.query),
           search: this.searchText,
         },
       })
+      // if (this.$route.name === 'home') {
+      //   this.$router.replace({
+      //     query: {
+      //       ...this.$route.query,
+      //       search: this.searchText,
+      //     },
+      //   })
+      // } else {
+      //   this.$router.push({
+      //     name: 'home',
+      //     query: {
+      //       search: this.searchText,
+      //     },
+      //   })
+      // }
     },
   },
 }
@@ -107,8 +132,8 @@ html
 
   .search-field
     background-color white
-    border-radius $radius-circle
     border .05rem solid $bc-1
+    border-radius $radius-circle
     display flex
     height $field-height
     position relative
