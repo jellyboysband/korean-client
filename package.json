@@ -5,7 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "backup": "ssh -o ServerAliveInterval=60 exorcist@35.228.184.126  'rm -rf /home/korean-all/www/korean-client_old/* && cp -r -f /home/korean-all/www/korean-client/* /home/korean-all/www/korean-client_old/'",
+    "rmOld": "ssh -o ServerAliveInterval=60 exorcist@35.228.184.126  'rm -rf /home/korean-all/www/korean-client/*'",
+    "deploy": "npm run build && npm run backup && npm run rmOld && rsync -rvz dist/ exorcist@35.228.184.126:/home/korean-all/www/korean-client"
   },
   "dependencies": {
     "core-js": "^3.2.1",
