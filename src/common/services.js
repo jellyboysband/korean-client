@@ -4,7 +4,7 @@ import Brand from '@/common/models/Brand'
 import Product from '@/common/models/Product'
 
 
-const request = wretch(`${process.env.VUE_APP_API_URL}/api`)
+const request = wretch('/api')
 
 
 export default {

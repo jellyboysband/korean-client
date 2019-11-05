@@ -43,7 +43,7 @@ module.exports = {
         target: process.env.VUE_APP_API_URL,
         changeOrigin: true,
       },
-      '^/upload': {
+      '^/images': {
         target: process.env.VUE_APP_UPLOAD_URL,
         changeOrigin: true,
       },
