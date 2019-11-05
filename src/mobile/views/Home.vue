@@ -16,7 +16,7 @@ article#home
       VIcon(icon="light/shopping-bag" square)
       span.product-cart-count(v-if="CartProductList.length") {{ CartProductList.length }}
 
-  ul.promo-list
+  //- ul.promo-list
     li.promo-item(v-for="promo in promoList")
       a.promo-link
         img.promo-preview(:src="promo")
