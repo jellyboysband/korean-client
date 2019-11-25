@@ -8,11 +8,11 @@ const request = wretch('/api')
 
 
 export default {
-  createOrder: ({ phone, list }) => request
+  createOrder: ({ phone, cartProductList }) => request
     .url('/order')
     .post({
       phone,
-      list,
+      list: cartProductList,
     })
     .json()
     .then(response => response.id),
@@ -38,7 +38,11 @@ export default {
     })))
     .get()
     .json()
-    .then(response => response.list.map(product => new Product(product))),
+    .then(response => response.list.map(product => new Product({
+      ...product,
+      extraList: product.extras,
+      tagList: product.tags,
+    }))),
 
   getProduct: ({ productId }) => request
     .url(`/products/${productId}`)

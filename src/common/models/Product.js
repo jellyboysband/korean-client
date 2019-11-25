@@ -1,22 +1,24 @@
 export default class {
   constructor({
-    id,
-    name,
-    description,
     apply,
-    price,
     avatarUrl,
     brand,
-    tags,
+    description,
+    extraList,
+    id,
+    name,
+    price,
+    tagList,
   }) {
-    this.id = id
-    this.brandId = brand.id
-    this.name = name
-    this.description = description
     this.apply = apply
-    this.price = price
     this.avatarUrl = avatarUrl
     this.brand = brand
-    this.tags = tags
+    this.brandId = brand.id
+    this.description = description
+    this.extraList = extraList
+    this.id = id
+    this.name = name
+    this.price = price
+    this.tagList = tagList
   }
 }

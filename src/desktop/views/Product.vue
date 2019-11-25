@@ -9,14 +9,35 @@ article#product(v-if="product")
   main.product-body
     section.product-section
       h2.product-title
-        span.product-brand {{ product.brand.name }}
-        | &nbsp;
+        span.product-brand-name {{ product.brand.name }}
+        |
+        | —
+        |
         span.product-name {{ product.name }}
-      //- p.product-description {{ product.description }}
+      p.product-tags {{ product.tagList.map(it => it.name.trim()).join(', ').toLowerCase() }}
 
     section.product-section
       .product-description {{ product.description }}
       .product-apply {{ product.apply }}
+
+    section.product-section
+      ul.product-extra-list
+        li.product-extra-item(
+          v-for="extra in product.extraList"
+          :key="extra.id"
+        )
+          label.product-extra(
+            :class="{ active: extra.id === extraIdSelected }"
+          )
+            p(v-if="extra.volume") Объем: {{ extra.volume | number }} ml
+            p(v-if="extra.weight") Вес: {{ extra.weight | number }} g
+            p Цена: {{ extra.price | number }} ₽
+            input(
+              v-model="extraIdSelected"
+              :value="extra.id"
+              name="extra"
+              type="radio"
+            )
 
     section.product-section
       .level
@@ -34,7 +55,7 @@ article#product(v-if="product")
             VIcon(icon="light/plus")
 
         p.product-price
-          span.product-price-curr {{ product.price | number }} ₽
+          span.product-price-curr {{ extraSelected.price * count | number }} ₽
           //- span.product-price-prev {{ product.price | number }} ₽
 
       button.add-to-cart(
@@ -62,6 +83,8 @@ export default {
   data() {
     return {
       count: 1,
+
+      extraIdSelected: 0,
     }
   },
 
@@ -69,13 +92,38 @@ export default {
     ...mapState('product', [
       'CartProductList',
     ]),
+
     ...mapGetters('product', [
       'GetProduct',
     ]),
 
+    extraSelected() {
+      return this.product?.extraList.find(it => it.id === this.extraIdSelected)
+    },
+
     product() {
       return this.GetProduct(this.productId)
     },
+
+    // priceMin() {
+    //   return Math.min(this.product.extraList(it => it.price))
+    // },
+
+    // priceMax() {
+    //   return Math.max(this.product.extraList(it => it.price))
+    // },
+  },
+
+  watch: {
+    product: {
+      handler(curr) {
+        this.extraIdSelected = curr?.extraList[0]?.id
+      },
+      immediate: true,
+    },
+  },
+
+  mounted() {
   },
 
   methods: {
@@ -84,8 +132,12 @@ export default {
     ]),
 
     addToCart() {
-      const { product, count } = this
-      this.AddCartProduct({ productId: product.id, count })
+      const { product, extraIdSelected, count } = this
+      this.AddCartProduct({
+        productId: product.id,
+        extraId: extraIdSelected,
+        count,
+      })
 
       this.$notify({
         title: 'Товар добавлен в корзину',
@@ -129,8 +181,14 @@ export default {
 
     .product-title
       font-size $fs-xl
-      font-weight $fw-semi-bold
-      // margin-bottom $sm
+      margin-bottom $xs
+
+      .product-brand-name
+        font-weight $fw-semi-bold
+
+    .product-tags
+      color $tc-2
+      font-size $fs-sm
 
     .product-description
     .product-apply
@@ -158,6 +216,28 @@ export default {
   .level
     align-items center
     display flex
+
+  .product-extra-list
+    display flex
+
+    .product-extra-item
+      margin-right .75rem
+
+      .product-extra
+        border .05rem solid $bc-1
+        border-radius $radius-md
+        // color $tc-1
+        cursor pointer
+        display flex
+        flex-direction column
+        font-size $fs-sm
+        justify-content center
+        padding .75rem
+        transition all .2s
+
+        &.active
+          border-color $tertiary
+          box-shadow 0 0 0 .05rem $tertiary
 
   .product-price
     line-height 1.25
