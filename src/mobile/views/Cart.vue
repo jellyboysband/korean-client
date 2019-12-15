@@ -12,31 +12,9 @@ article#cart
         v-for="cartProduct in CartProductList"
         :key="cartProduct.productId"
       )
-        section.cart-product-container
-          img.cart-product-preview(
-            :src="GetProduct(cartProduct.productId).avatarUrl"
-          )
-
-          header.cart-product-header
-            RouterLink.cart-product-name(
-              :to="{ name: 'product', params: { productId: cartProduct.productId } }"
-            ) {{ GetProduct(cartProduct.productId).name }}
-            button.cart-product-remove(
-              @click="RemoveCartProduct(cartProduct)"
-            )
-              VIcon(icon="regular/trash")
-
-          footer.cart-product-footer
-            p.cart-product-price
-              span.cart-product-price-curr {{ GetProduct(cartProduct.productId).price | number }} ₽
-              //- span.cart-product-price-prev {{ GetProduct(cartProduct.productId).price | number }} ₽
-
-            section.cart-product-count
-              button.cart-product-count-decrement(@click="cartProduct.count = Math.max(1, cartProduct.count - 1)")
-                VIcon(icon="light/minus")
-              span.cart-product-count-value {{ cartProduct.count }}
-              button.cart-product-count-increment(@click="cartProduct.count++")
-                VIcon(icon="light/plus")
+        CartProduct(
+          :cartProduct="cartProduct"
+        )
 
     p.cart-product-list-empty(v-else) Ваша корзина пуста
 
@@ -69,8 +47,14 @@ import {
   mapActions,
 } from 'vuex'
 
+import CartProduct from '@/desktop/components/CartProduct.vue'
+
 
 export default {
+  components: {
+    CartProduct,
+  },
+
   data() {
     return {
       phone: '',
@@ -83,11 +67,11 @@ export default {
     ]),
 
     ...mapGetters('product', [
-      'GetProduct',
+      'GetExtra',
     ]),
 
     cartAmount() {
-      return this.CartProductList.reduce((acc, curr) => acc + curr.count * this.GetProduct(curr.productId).price, 0)
+      return this.CartProductList.reduce((acc, curr) => acc + curr.count * this.GetExtra(curr.extraId).price, 0)
     },
   },
 
@@ -121,8 +105,6 @@ export default {
 
 <style lang="stylus">
 $product-preview-size = 4.5rem
-$product-padding = $md
-$product-gap = $md
 
 #cart
   position relative
@@ -163,88 +145,6 @@ $product-gap = $md
         left $product-preview-size + $md + $md
         position absolute
         right 0
-
-    .cart-product-container
-      display grid
-      gap 0 $product-gap
-      grid-template-areas 'preview header' 'preview footer'
-      grid-template-columns auto 1fr
-      padding $product-padding
-
-      .cart-product-preview
-        border-radius $radius-xs
-        grid-area preview
-        height $product-preview-size
-        width $product-preview-size
-
-      .cart-product-header
-        align-items center
-        display flex
-        grid-area header
-
-      .cart-product-footer
-        align-items center
-        display flex
-        grid-area footer
-
-      .cart-product-remove
-        $remove-size = 1.75rem
-
-        align-items center
-        // background-color white
-        // border .25px solid $bc-1
-        border-radius $radius-circle
-        display flex
-        height $remove-size
-        justify-content center
-        margin-left auto
-        padding 0
-        width $remove-size
-
-      .cart-product-price
-        .cart-product-price-curr
-          font-size $fs-sm
-          font-weight $fw-semi-bold
-
-        .cart-product-price-prev
-          color $tc-3
-          font-size $fs-xs
-          margin-left $xs
-          text-decoration line-through
-
-      .cart-product-count
-        $count-item-size = 1.75rem
-
-        background-color $white
-        border .75px solid $bc-1
-        border-radius $radius-sm
-        display flex
-        grid-area count
-        margin-left auto
-        overflow hidden
-        width $count-item-size * 3
-
-        .cart-product-count-value
-        .cart-product-count-increment
-        .cart-product-count-decrement
-          align-items center
-          display flex
-          height $count-item-size
-          justify-content center
-          text-align center
-          transition all .2s
-          width $count-item-size
-
-        .cart-product-count-value
-          font-size $fs-md
-
-        .cart-product-count-increment
-        .cart-product-count-decrement
-          color $tc-2
-          font-size $fs-xs
-
-          &:active
-            background-color alpha($primary, .2)
 
   .cart-separator
     border-top .75px solid $bc-1

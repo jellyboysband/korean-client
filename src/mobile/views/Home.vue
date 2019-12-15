@@ -4,6 +4,7 @@ article#home
     form.search-field(@submit.prevent="onSearchSubmit")
       .search-icon-container
         VIcon.search-icon(icon="regular/search")
+
       input.search-input(
         v-model="searchText"
         placeholder="Поиск по товарам"
@@ -14,6 +15,7 @@ article#home
       :to="{ name: 'cart' }"
     )
       VIcon(icon="light/shopping-bag" square)
+
       span.product-cart-count(v-if="CartProductList.length") {{ CartProductList.length }}
 
   //- ul.promo-list
@@ -45,13 +47,23 @@ article#home
               :alt="`Фотография продукта ${product.name}`"
               :src="product.avatarUrl"
             )
+
           main.product-info
             //- .product-sale -13%
             span.product-place {{ product.place }}
-            h6.product-name {{ product.brand.name }} {{ product.name }}
-            p.product-description {{ product.description }}
+
+            h6.product-title
+              span.product-brand-name {{ product.brand.name }}
+              |
+              | —
+              |
+              span.product-name {{ product.name }}
+
+            p.product-tags {{ product.tagList.map(it => it.name.trim()).join(', ').toLowerCase() }}
+
             p.product-price
-              span.product-price-curr {{ product.price | number }} ₽
+              span.product-price-curr {{ Math.min(product.extraList.map(it => it.price)) | number }} ₽
+
               //- span.product-price-prev {{ product.price | number }} ₽
 
 </template>
@@ -69,16 +81,19 @@ const FILTER_TYPE_NEW = 'new'
 const FILTER_TYPE_POPULAR = 'popular'
 const FILTER_TYPE_SALE = 'sale'
 
+
 export default {
   props: {
     typeId: {
       default: FILTER_TYPE_NEW,
       type: String,
     },
+
     brandId: {
       default: 0,
       type: Number,
     },
+
     search: {
       default: '',
       type: String,
@@ -92,7 +107,9 @@ export default {
         promo2Image,
         promo3Image,
       ],
+
       searchText: '',
+
       typeList: Object.freeze([
         {
           id: FILTER_TYPE_NEW,
@@ -130,15 +147,19 @@ export default {
         keys: [
           {
             name: 'name',
-            weight: 0.4,
+            weight: 0.3,
           },
           {
             name: 'brand.name',
             weight: 0.3,
           },
           {
-            name: 'description',
+            name: 'tagList.name',
             weight: 0.2,
+          },
+          {
+            name: 'description',
+            weight: 0.1,
           },
           {
             name: 'apply',
