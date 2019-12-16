@@ -12,7 +12,7 @@ article#cart
 
     .cart-product-list-empty(v-else)
       p Ваша корзина пуста
-      router-link.cart-product-list-empty-back(:to="{ name: 'home' }") Вернуться к покупкам
+      RouterLink.cart-product-list-empty-back(:to="{ name: 'home' }") Вернуться к покупкам
 
   hr.cart-separator
 
@@ -28,7 +28,7 @@ article#cart
         v-model="phone"
         autocomplete
         inputmode="tel"
-        placeholder="+7 (900) 000 00-00"
+        placeholder="+7(900)000-00-00"
         type="tel"
       )
       button.cart-buy(
@@ -42,7 +42,6 @@ article#cart
 import {
   mapState,
   mapGetters,
-  mapMutations,
   mapActions,
 } from 'vuex'
 
@@ -75,10 +74,6 @@ export default {
   },
 
   methods: {
-    ...mapMutations('product', [
-      'RemoveCartProduct',
-    ]),
-
     ...mapActions('product', [
       'CreateOrder',
     ]),

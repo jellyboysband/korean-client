@@ -16,26 +16,31 @@ article#cart
           :cartProduct="cartProduct"
         )
 
-    p.cart-product-list-empty(v-else) Ваша корзина пуста
+    .cart-product-list-empty(v-else)
+      p Ваша корзина пуста
+      RouterLink.cart-product-list-empty-back(:to="{ name: 'home' }") Вернуться к покупкам
 
   hr.cart-separator
 
   footer.cart-footer
-    p.cart-amount
-      span.cart-amount-text Сумма заказа:
-      span.cart-amount-value {{ cartAmount | number }} ₽
-    label.cart-user-phone-label Контактный телефон:
-    input.cart-user-phone(
-      v-model="phone"
-      autocomplete
-      inputmode="tel"
-      placeholder="+7 (900) 000 00-00"
-      type="tel"
+    form.cart-form(
+      @submit.prevent="createOrder"
     )
-    button.cart-buy(
-      :disabled="!CartProductList.length || !phone"
-      type="submit"
-    ) Оформить заказ
+      p.cart-amount
+        span.cart-amount-text Сумма заказа:
+        span.cart-amount-value {{ cartAmount | number }} ₽
+      label.cart-user-phone-label Контактный телефон:
+      input.cart-user-phone(
+        v-model="phone"
+        autocomplete
+        inputmode="tel"
+        placeholder="+7(900)000-00-00"
+        type="tel"
+      )
+      button.cart-buy(
+        :disabled="!CartProductList.length || !phone"
+        type="submit"
+      ) Оформить заказ
 
 </template>
 
@@ -78,7 +83,6 @@ export default {
   methods: {
     ...mapMutations('product', [
       'CreateOrder',
-      'RemoveCartProduct',
     ]),
 
     ...mapActions('product', [

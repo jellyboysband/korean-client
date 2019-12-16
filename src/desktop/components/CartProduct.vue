@@ -36,6 +36,7 @@ section.cart-product
 <script>
 import {
   mapGetters,
+  mapMutations,
 } from 'vuex'
 
 
@@ -59,6 +60,12 @@ export default {
     extra() {
       return this.product?.extraList.find(it => it.id === this.cartProduct.extraId)
     },
+  },
+
+  methods: {
+    ...mapMutations('product', [
+      'RemoveCartProduct',
+    ]),
   },
 }
 </script>
