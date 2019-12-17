@@ -27,7 +27,7 @@
     section.footer-section
       h6.footer-title Контакты
       address.contact
-        a.contact-phone(href="tel:+79533737385") +7 (953) 373-73-85
+        a.contact-phone(href="tel:+79995219996") +7 (999) 521-99-96
         a.contact-email(href="mailto:tandem.beauty178@gmail.com") tandem.beauty178@gmail.com
 
     section.footer-section
