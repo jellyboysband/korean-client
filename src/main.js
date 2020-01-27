@@ -9,6 +9,8 @@ import VCollapse from '@/common/elements/VCollapse.vue'
 import VIcon from '@/common/elements/VIcon.vue'
 
 import '@/common/assets/styles/index.styl'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'swiper/dist/css/swiper.css'
 
 
 Vue.config.productionTip = false

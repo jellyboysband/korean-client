@@ -98,7 +98,7 @@ export default {
     ]),
 
     extraSelected() {
-      return this.product?.extraList.find(it => it.id === this.extraIdSelected)
+      return this.product?.extraList.find((it) => it.id === this.extraIdSelected)
     },
 
     product() {
@@ -194,6 +194,7 @@ export default {
     .product-apply
       // color $tc-2
       font-size $fs-sm
+      white-space pre-line
 
       &:not(:first-child)
         margin-top $md

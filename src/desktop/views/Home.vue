@@ -1,5 +1,27 @@
 <template lang="pug">
 article#home
+  section.promo-carousel
+    Swiper(:options="swiperOption")
+      SwiperSlide(
+        v-for="promo in promoList"
+        :key="promo"
+      )
+        RouterLink.promo-link(
+          :to="{ name: 'product', params: { productId: 1 } }"
+        )
+          img.promo-preview(:src="promo")
+      div.swiper-pagination(slot="pagination")
+
+  //- Carousel(
+  //-   :autoplay="true"
+  //-   :autoplayTimeout="3000"
+  //-   :autoplayHoverPause="true"
+  //-   :perPage="1"
+  //-   :paginationEnabled="false"
+  //- )
+  //-   Slide(v-for="promo in promoList")
+  //-     a.promo-link
+  //-       img.promo-preview(:src="promo")
   //- ul.promo-list
     li.promo-item(v-for="promo in promoList")
       a.promo-link
@@ -23,30 +45,17 @@ article#home
       :key="product.id"
     )
       RouterLink.product-link(:to="{ name: 'product', params: { productId: product.id } }")
-        section.product-card
-          figure.product-preview-container
-            img.product-preview(
-              :alt="`Фотография продукта ${product.name}`"
-              :src="product.avatarUrl"
-            )
-          main.product-info
-            //- .product-sale -13%
-            span.product-place {{ product.place }}
-            h6.product-title
-              span.product-brand-name {{ product.brand.name }}
-              |
-              | —
-              |
-              span.product-name {{ product.name }}
-            p.product-tags {{ product.tagList.map(it => it.name.trim()).join(', ').toLowerCase() }}
-            p.product-price
-              span.product-price-curr {{ Math.min(product.extraList.map(it => it.price)) | number }} ₽
-              //- span.product-price-prev {{ product.price | number }} ₽
+        ProductCard(
+          :product="product"
+        )
 </template>
 
 <script>
 import Fuse from 'fuse.js'
 import { mapState } from 'vuex'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+
+import ProductCard from '@/desktop/components/ProductCard.vue'
 
 import promo1Image from '@/common/assets/images/promo/1.jpg'
 import promo2Image from '@/common/assets/images/promo/2.jpg'
@@ -58,6 +67,12 @@ const FILTER_TYPE_POPULAR = 'popular'
 const FILTER_TYPE_SALE = 'sale'
 
 export default {
+  components: {
+    ProductCard,
+    Swiper: swiper,
+    SwiperSlide: swiperSlide,
+  },
+
   props: {
     typeId: {
       default: FILTER_TYPE_NEW,
@@ -94,6 +109,15 @@ export default {
           name: 'Распродажа',
         },
       ].map(Object.freeze)),
+      swiperOption: {
+        centeredSlides: true,
+        loop: true,
+        slidesPerView: 'auto',
+        spaceBetween: 32,
+        pagination: {
+          el: '.swiper-pagination',
+        },
+      },
     }
   },
 
@@ -106,7 +130,7 @@ export default {
 
     productListFiltered() {
       return this.brandId
-        ? this.ProductList.filter(it => it.brand.id === this.brandId)
+        ? this.ProductList.filter((it) => it.brand.id === this.brandId)
         : this.ProductList
     },
 
@@ -114,6 +138,7 @@ export default {
       const options = {
         shouldSort: true,
         findAllMatches: true,
+        threshold: 0.2,
         keys: [
           {
             name: 'name',
@@ -125,15 +150,7 @@ export default {
           },
           {
             name: 'tagList.name',
-            weight: 0.2,
-          },
-          {
-            name: 'description',
-            weight: 0.1,
-          },
-          {
-            name: 'apply',
-            weight: 0.1,
+            weight: 0.4,
           },
         ],
       }
@@ -161,33 +178,47 @@ export default {
 @import '~@/common/assets/styles/mixins.styl'
 
 #home
-  container()
+  .promo-carousel
+    .swiper-slide
+      max-width max-content
 
-  padding-bottom $xxl
-  padding-top $xxl
+    .swiper-pagination-bullet
+      &.swiper-pagination-bullet-active
+        background-color $tertiary
 
-  .promo-list
-    display flex
-    overflow hidden
+    // margin 0 auto
+    // max-width 1000px
 
-    .promo-item
-      box-shadow $shadow-1
-      flex none
-      overflow hidden
-      scroll-snap-align center
-      width 100%
+    // .promo-link
+    //   display block
 
-      &:not(:first-child)
-        margin-left $xs
+    //   .promo-preview
+    //     display block
+    //     object-fit cover
+    //     width 100%
 
-      .promo-link
-        display block
+  // .promo-list
+  //   display flex
+  //   overflow hidden
 
-      .promo-preview
-        display block
-        height 300px
-        object-fit cover
-        width 100%
+  //   .promo-item
+  //     box-shadow $shadow-1
+  //     flex none
+  //     overflow hidden
+  //     scroll-snap-align center
+  //     width 100%
+
+  //     &:not(:first-child)
+  //       margin-left $xs
+
+  //     .promo-link
+  //       display block
+
+  //     .promo-preview
+  //       display block
+  //       height 300px
+  //       object-fit cover
+  //       width 100%
 
   .filter-list
     display flex
@@ -238,82 +269,17 @@ export default {
           opacity 1
 
   .product-list
+    container()
+
     display grid
-    gap $md
+    gap 1.5rem 1rem
     grid-template-columns repeat(auto-fill, minmax(250px, 1fr))
-    padding $md $md $xxl
+    padding-bottom $xxl
+    padding-top $xxl
     scroll-behavior smooth
 
     .product-item
-      .product-card
-        background-color white
-        border-radius $radius-md
-        box-shadow $shadow-1
-        overflow hidden
-        position relative
-
-        .product-preview-container
-          border-radius $radius-md
-          padding-top 100%
-          position relative
-
-          .product-preview
-            bottom 0
-            color $tc-3
-            display block
-            font-size $fs-xs
-            height 100%
-            left 0
-            object-fit cover
-            position absolute
-            right 0
-            top 0
-            width 100%
-
-        .product-info
-          padding $sm
-          position relative
-
-          .product-sale
-            background-color $secondary
-            border-radius $radius-xs
-            box-shadow $shadow-1
-            color alpha($white, .87)
-            font-size $fs-xs
-            font-weight $fw-semi-bold
-            padding $xxs $xs
-            position absolute
-            top $xs
-            transform translateY(-100%)
-
-          .product-place
-            font-size $fs-xs
-            font-weight $fw-semi-bold
-            margin-bottom $xxs
-            opacity .7
-
-          .product-title
-            font-size $fs-md
-            margin-bottom $xxs
-
-            .product-brand-name
-              font-weight $fw-semi-bold
-
-          .product-tags
-            color $tc-2
-            font-size $fs-xs
-            line-height 1.25
-            // margin-bottom $xxs
-
-          .product-price
-            margin-top $xs
-
-            .product-price-curr
-              font-size $fs-xl
-              font-weight $fw-semi-bold
-
-            .product-price-prev
-              color $tc-3
-              margin-left $xs
-              text-decoration line-through
+      .product-link
+        display block
+        height 100%
 </style>
