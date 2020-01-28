@@ -6,8 +6,7 @@ mask()
   right 0
   top 0
 
-container($padding = 1.25rem)
-  $max-width = 1000px
+container($padding = 1.25rem, $max-width = $container-max-width)
   $query = 'calc(50vw - %s + %s)' % (($max-width * .5) $padding)
 
   padding-left $query

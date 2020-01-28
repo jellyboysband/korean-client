@@ -2,7 +2,7 @@
 #app
   Header
 
-  //- Navigation
+  Navigation
 
   RouterView
 
@@ -46,7 +46,8 @@ export default {
 @import '~@/common/assets/styles/mixins.styl'
 
 html
-  background-color alpha($primary, .05)
+  // background-color alpha($primary, .05)
+  background-color hsla(210, 25%, 97%, 1)
   font-size 18px
 
 #app

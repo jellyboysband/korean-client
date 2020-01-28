@@ -57,9 +57,9 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 import ProductCard from '@/desktop/components/ProductCard.vue'
 
-import promo1Image from '@/common/assets/images/promo/1.jpg'
-import promo2Image from '@/common/assets/images/promo/2.jpg'
-import promo3Image from '@/common/assets/images/promo/3.jpg'
+import promo1Image from '@/common/assets/images/promo/1.png'
+import promo2Image from '@/common/assets/images/promo/2.png'
+import promo3Image from '@/common/assets/images/promo/3.png'
 
 
 const FILTER_TYPE_NEW = 'new'
@@ -178,7 +178,11 @@ export default {
 @import '~@/common/assets/styles/mixins.styl'
 
 #home
+  padding 2rem 0
+
   .promo-carousel
+    margin-bottom 3rem
+
     .swiper-slide
       max-width max-content
 
@@ -186,40 +190,28 @@ export default {
       &.swiper-pagination-bullet-active
         background-color $tertiary
 
-    // margin 0 auto
-    // max-width 1000px
-
-    // .promo-link
-    //   display block
-
-    //   .promo-preview
-    //     display block
-    //     object-fit cover
-    //     width 100%
-
   // .promo-list
-  //   display flex
-  //   overflow hidden
+  // display flex
+  // overflow hidden
 
-  //   .promo-item
-  //     box-shadow $shadow-1
-  //     flex none
-  //     overflow hidden
-  //     scroll-snap-align center
-  //     width 100%
+  // .promo-item
+  // box-shadow $shadow-1
+  // flex none
+  // overflow hidden
+  // scroll-snap-align center
+  // width 100%
 
-  //     &:not(:first-child)
-  //       margin-left $xs
+  // &:not(:first-child)
+  // margin-left $xs
 
-  //     .promo-link
-  //       display block
+  // .promo-link
+  // display block
 
-  //     .promo-preview
-  //       display block
-  //       height 300px
-  //       object-fit cover
-  //       width 100%
-
+  // .promo-preview
+  // display block
+  // height 300px
+  // object-fit cover
+  // width 100%
   .filter-list
     display flex
     overflow-y auto
@@ -269,13 +261,13 @@ export default {
           opacity 1
 
   .product-list
-    container()
-
     display grid
     gap 1.5rem 1rem
     grid-template-columns repeat(auto-fill, minmax(250px, 1fr))
-    padding-bottom $xxl
-    padding-top $xxl
+    // container()
+    margin 0 auto
+    max-width $container-max-width
+    padding 1rem
     scroll-behavior smooth
 
     .product-item

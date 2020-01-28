@@ -72,9 +72,9 @@ article#home
 import Fuse from 'fuse.js'
 import { mapState } from 'vuex'
 
-import promo1Image from '@/common/assets/images/promo/1.jpg'
-import promo2Image from '@/common/assets/images/promo/2.jpg'
-import promo3Image from '@/common/assets/images/promo/3.jpg'
+import promo1Image from '@/common/assets/images/promo/1.png'
+import promo2Image from '@/common/assets/images/promo/2.png'
+import promo3Image from '@/common/assets/images/promo/3.png'
 
 
 const FILTER_TYPE_NEW = 'new'
@@ -136,7 +136,7 @@ export default {
 
     productListFiltered() {
       return this.brandId
-        ? this.ProductList.filter(it => it.brand.id === this.brandId)
+        ? this.ProductList.filter((it) => it.brand.id === this.brandId)
         : this.ProductList
     },
 

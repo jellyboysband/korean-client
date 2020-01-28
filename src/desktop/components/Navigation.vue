@@ -4,7 +4,7 @@ nav#navigation
     v-for="navigation in navigationList"
   )
     li.navigation-item
-      RouterLink.navigation-link(
+      RouterLink.navigation-link.active(
         :to="navigation.route"
       ) {{ navigation.text }}
 </template>
@@ -30,14 +30,21 @@ export default {
 #navigation
   container()
 
-  background-color blue
+  background-color $primary
 
   .navigation-list
     display flex
 
     .navigation-item
       .navigation-link
-        background-color green
+        color white
         display block
         padding .75rem 1.5rem
+
+        &.active:not(:hover)
+          background-color white
+          color $tc-1
+
+        &:hover
+          background-color darken($primary, 10%)
 </style>
