@@ -24,7 +24,7 @@ footer#footer
   container()
 
   background-color white
-  border-top .05rem solid $bc-1
+  border-top 1px solid $bc-1
   color #363636
   display flex
   margin-top auto

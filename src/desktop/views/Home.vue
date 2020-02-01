@@ -191,7 +191,7 @@ export default {
       min-width 0
 
   .promo-carousel
-    margin-bottom 3rem
+    margin-bottom 2rem
 
     .swiper-slide
       max-width max-content

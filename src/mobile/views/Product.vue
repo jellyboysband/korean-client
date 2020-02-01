@@ -275,7 +275,7 @@ export default {
       margin-right .75rem
 
       .product-extra
-        border .05rem solid $bc-1
+        border 1px solid $bc-1
 
         // color $tc-1
         cursor pointer
@@ -288,7 +288,7 @@ export default {
 
         &.active
           border-color $tertiary
-          box-shadow 0 0 0 .05rem $tertiary
+          box-shadow 0 0 0 1px $tertiary
 
   .product-price
     line-height 1.25

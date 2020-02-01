@@ -133,7 +133,7 @@ $product-preview-size = 4.5rem
       //   background-color $bc-1
       //   bottom 0
       //   content ''
-      //   height .05rem
+      //   height 1px
       //   left $product-preview-size + $md + $md
       //   position absolute
       //   right 0
@@ -170,7 +170,7 @@ $product-preview-size = 4.5rem
 
     .cart-user-phone
       background-color white
-      border .05rem solid $bc-1
+      border 1px solid $bc-1
       height 2.75rem
       padding 0 $sm
       width 100%

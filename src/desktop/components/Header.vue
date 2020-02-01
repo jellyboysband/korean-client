@@ -95,7 +95,7 @@ export default {
 
   align-items center
   background-color white
-  // border-bottom .05rem solid $bc-1
+  // border-bottom 1px solid $bc-1
   display grid
   grid-template-areas 'logo . navigation' 'logo search cart'
   grid-template-columns 1fr 1fr 1fr
@@ -129,8 +129,8 @@ export default {
 
   .search-field
     background-color white
-    border .05rem solid $bc-1
-    border-radius $radius-circle
+    border 1px solid $bc-1
+    // border-radius $radius-circle
     display flex
     grid-area search
     height $field-height

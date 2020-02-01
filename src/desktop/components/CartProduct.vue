@@ -162,7 +162,7 @@ $product-gap = 1rem
     $count-item-size = 1.75rem
 
     background-color $white
-    border .05rem solid $bc-1
+    border 1px solid $bc-1
     display flex
     grid-area count
     margin-left auto
