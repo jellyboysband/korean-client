@@ -155,7 +155,6 @@ export default {
   .product-cart-link
     align-items center
     background-color $secondary
-    border-radius $radius-md
     box-shadow $shadow-1
     color $white
     display flex

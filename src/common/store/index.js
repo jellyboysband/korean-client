@@ -12,12 +12,23 @@ const store = {
     lang,
   },
 
+  state: {
+    initialized: false,
+  },
+
+  mutations: {
+    initialize(state) {
+      state.initialized = true
+    },
+  },
+
   actions: {
-    async Init({ dispatch }) {
+    async Init({ commit, dispatch }) {
       return Promise.all([
         dispatch('product/LoadBrandList'),
+        dispatch('product/LoadCategoryList'),
         dispatch('product/LoadProductList'),
-      ])
+      ]).then(() => commit('initialize'))
     },
   },
 }

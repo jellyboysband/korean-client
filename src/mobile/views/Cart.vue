@@ -91,7 +91,7 @@ export default {
 
     createOrder() {
       this.CreateOrder({ phone: this.phone })
-        .then(orderId => this.$router.push({
+        .then((orderId) => this.$router.push({
           name: 'order',
           params: {
             orderId,
@@ -179,14 +179,14 @@ $product-preview-size = 4.5rem
     .cart-user-phone
       background-color white
       border .75px solid $bc-1
-      border-radius $radius-md
+
       height 2.75rem
       padding 0 $sm
       width 100%
 
     .cart-buy
       background-color $tertiary
-      border-radius $radius-md
+
       box-shadow $shadow-1
       color white
       display block

@@ -1,18 +1,16 @@
 <template lang="pug">
 section.cart-product
   img.cart-product-preview(
-    :src="product.avatarUrl"
+    :src="avatarUrl"
   )
 
   header.cart-product-header
     RouterLink.cart-product-title(
       :to="{ name: 'product', params: { productId: cartProduct.productId } }"
+      :title="`${brand.name} — ${product.name}`"
     )
-      span.cart-product-brand-name {{ product.brand.name }}
-      |
-      | —
-      |
-      span.cart-product-name {{ product.name }}
+      p.cart-product-brand-name {{ brand.name }}
+      p.cart-product-name {{ product.name }}
     button.cart-product-remove(
       @click="RemoveCartProduct(cartProduct)"
     )
@@ -50,15 +48,24 @@ export default {
 
   computed: {
     ...mapGetters('product', [
+      'GetBrand',
       'GetProduct',
     ]),
 
-    product() {
-      return this.GetProduct(this.cartProduct.productId)
+    avatarUrl() {
+      return this.extra.avatarUrl
+    },
+
+    brand() {
+      return this.GetBrand(this.product.brandId)
     },
 
     extra() {
-      return this.product?.extraList.find(it => it.id === this.cartProduct.extraId)
+      return this.product?.extraList.find((it) => it.id === this.cartProduct.extraId)
+    },
+
+    product() {
+      return this.GetProduct(this.cartProduct.productId)
     },
   },
 
@@ -71,35 +78,52 @@ export default {
 </script>
 
 <style lang="stylus">
-$product-preview-size = 4.5rem
-$product-padding = $md
-$product-gap = $md
+$product-preview-size = 6.5rem
+$product-padding = 1rem
+$product-gap = 1rem
 
 .cart-product
+  background-color white
+  box-shadow $shadow-1
   display grid
-  gap 0 $product-gap
+  // gap 0 $product-gap
   grid-template-areas 'preview header' 'preview footer'
-  grid-template-columns auto 1fr
-  padding $product-padding
+  grid-template-columns max-content 1fr
 
+  // grid-template-rows 1fr 1fr
+  // padding $product-padding
   .cart-product-preview
-    border-radius $radius-xs
     grid-area preview
     height $product-preview-size
     width $product-preview-size
 
   .cart-product-header
+    align-items flex-start
     display flex
     grid-area header
+    min-width 0
+    padding $product-padding
+    padding-bottom 0
 
   .cart-product-footer
-    align-items center
+    align-items flex-end
     display flex
     grid-area footer
+    padding $product-padding
+    padding-top 0
 
   .cart-product-title
+    margin-right 1rem
+    overflow hidden
+
     .cart-product-brand-name
+      font-size $fs-xs
       font-weight $fw-semi-bold
+
+    .cart-product-name
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
 
   .cart-product-remove
     $remove-size = 1.75rem
@@ -109,11 +133,12 @@ $product-gap = $md
     // border .25px solid $bc-1
     border-radius $radius-circle
     display flex
-    height $remove-size
+    flex none
+    // height $remove-size
     justify-content center
     margin-left auto
+    // width $remove-size
     padding 0
-    width $remove-size
 
   .cart-product-volume
   .cart-product-weight
@@ -138,7 +163,6 @@ $product-gap = $md
 
     background-color $white
     border .05rem solid $bc-1
-    border-radius $radius-sm
     display flex
     grid-area count
     margin-left auto

@@ -21,7 +21,8 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
-      props: route => ({
+      props: (route) => ({
+        categoryId: +route.query.categoryId,
         typeId: route.query.type,
         search: route.query.search,
       }),
@@ -30,7 +31,7 @@ export default new Router({
       path: '/product/:productId',
       name: 'product',
       component: Product,
-      props: route => ({
+      props: (route) => ({
         productId: +route.params.productId,
       }),
     },
@@ -43,7 +44,7 @@ export default new Router({
       path: '/order/:orderId',
       name: 'order',
       component: OrderComplete,
-      props: route => ({
+      props: (route) => ({
         orderId: +route.params.orderId,
       }),
     },

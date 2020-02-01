@@ -119,7 +119,7 @@ export default {
     ]),
 
     extraSelected() {
-      return this.product?.extraList.find(it => it.id === this.extraIdSelected)
+      return this.product?.extraList.find((it) => it.id === this.extraIdSelected)
     },
 
     product() {
@@ -207,7 +207,7 @@ export default {
         width 1rem
 
   .product-preview-container
-    border-radius $radius-md
+
     padding-top 100%
     position relative
 
@@ -276,7 +276,7 @@ export default {
 
       .product-extra
         border .05rem solid $bc-1
-        border-radius $radius-md
+
         // color $tc-1
         cursor pointer
         display flex
@@ -308,7 +308,7 @@ export default {
 
     background-color $white
     border .75px solid $bc-1
-    border-radius $radius-md
+
     display flex
     overflow hidden
     width $count-item-size * 3
@@ -337,7 +337,7 @@ export default {
 
   .add-to-cart
     background-color $tertiary
-    border-radius $radius-md
+
     box-shadow $shadow-1
     color white
     display block

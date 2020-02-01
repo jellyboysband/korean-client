@@ -1,26 +1,27 @@
 <template lang="pug">
-  section.product-card
-    figure.product-preview-container
-      img.product-preview(
-        :alt="`Фотография продукта ${product.name}`"
-        :src="product.avatarUrl"
-      )
-    main.product-info
-      //- .product-sale -13%
-      span.product-place {{ product.place }}
-      h6.product-title
-        span.product-brand-name {{ product.brand.name }}
-        |
-        | —
-        |
-        span.product-name {{ product.name }}
-      p.product-tags {{ product.tagList.map(it => it.name.trim()).join(', ').toLowerCase() }}
-      p.product-price
-        span.product-price-curr {{ priceMin | number }} ₽
-        //- span.product-price-prev {{ product.price | number }} ₽
+section.product-card
+  figure.product-preview-container
+    img.product-preview(
+      :alt="`Фотография продукта ${product.name}`"
+      :src="avatarUrl"
+    )
+  main.product-info
+    //- .product-sale -13%
+    span.product-place {{ product.place }}
+    h6.product-title
+      span.product-brand-name {{ brand.name }}
+      |
+      | —
+      |
+      span.product-name {{ product.name }}
+    p.product-categories {{ categoryList.map(it => it.name.trim()).join(', ').toLowerCase() }}
+    p.product-price
+      span.product-price-curr {{ priceMin | number }} ₽
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import Product from '@/common/models/Product'
 
 
@@ -33,6 +34,23 @@ export default {
   },
 
   computed: {
+    ...mapGetters('product', [
+      'GetBrand',
+      'GetCategory',
+    ]),
+
+    avatarUrl() {
+      return this.product.extraList[0].avatarUrl
+    },
+
+    brand() {
+      return this.GetBrand(this.product.brandId)
+    },
+
+    categoryList() {
+      return this.product.categoryIdList.map(this.GetCategory)
+    },
+
     priceMin() {
       return Math.min(...this.product.extraList.map((it) => it.price))
     },
@@ -43,7 +61,6 @@ export default {
 <style lang="stylus">
 .product-card
   background-color white
-  border-radius $radius-md
   box-shadow $shadow-1
   display flex
   flex-direction column
@@ -52,9 +69,10 @@ export default {
   position relative
 
   .product-preview-container
-    border-radius $radius-md
     padding-top 100%
+    pointer-events none
     position relative
+    user-select none
 
     .product-preview
       bottom 0
@@ -78,7 +96,6 @@ export default {
 
     .product-sale
       background-color $secondary
-      border-radius $radius-xs
       box-shadow $shadow-1
       color alpha($white, .87)
       font-size $fs-xs
@@ -101,7 +118,7 @@ export default {
       .product-brand-name
         font-weight $fw-semi-bold
 
-    .product-tags
+    .product-categories
       color $tc-2
       font-size $fs-xs
       line-height 1.25

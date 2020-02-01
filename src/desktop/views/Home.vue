@@ -7,7 +7,7 @@ article#home
         :key="promo"
       )
         RouterLink.promo-link(
-          :to="{ name: 'product', params: { productId: 1 } }"
+          :to="{ name: 'product', query: { productId: 1 } }"
         )
           img.promo-preview(:src="promo")
       div.swiper-pagination(slot="pagination")
@@ -27,27 +27,24 @@ article#home
       a.promo-link
         img.promo-preview(:src="promo")
 
-  //- ul.filter-list(v-if="!search")
-    li.filter-item(
-      v-for="type in typeList"
-      :key="type.id"
-      :class="{ active: type.id === typeId }"
-      @click="onFilterClick"
-    )
-      RouterLink.filter-link(
-        :to="{ query: { ...$route.query, type: type.id } }"
-        replace
-      ) {{ type.name }}
+  main.home-body
+    section.filter-container
+      h3.filter-title Категории
+      FilterCategory.filter-category(
+        :categoryId="categoryId"
+      )
 
-  ul.product-list
-    li.product-item(
-      v-for="product in productListSearched"
-      :key="product.id"
-    )
-      RouterLink.product-link(:to="{ name: 'product', params: { productId: product.id } }")
-        ProductCard(
-          :product="product"
-        )
+    hr.home-separator
+
+    ul.product-list
+      li.product-item(
+        v-for="product in productListSearched"
+        :key="product.id"
+      )
+        RouterLink.product-link(:to="{ name: 'product', params: { productId: product.id } }")
+          ProductCard(
+            :product="product"
+          )
 </template>
 
 <script>
@@ -56,27 +53,25 @@ import { mapState } from 'vuex'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 import ProductCard from '@/desktop/components/ProductCard.vue'
+import FilterCategory from '@/desktop/components/FilterCategory.vue'
 
 import promo1Image from '@/common/assets/images/promo/1.png'
 import promo2Image from '@/common/assets/images/promo/2.png'
 import promo3Image from '@/common/assets/images/promo/3.png'
 
 
-const FILTER_TYPE_NEW = 'new'
-const FILTER_TYPE_POPULAR = 'popular'
-const FILTER_TYPE_SALE = 'sale'
-
 export default {
   components: {
+    FilterCategory,
     ProductCard,
     Swiper: swiper,
     SwiperSlide: swiperSlide,
   },
 
   props: {
-    typeId: {
-      default: FILTER_TYPE_NEW,
-      type: String,
+    categoryId: {
+      default: 0,
+      type: Number,
     },
     brandId: {
       default: 0,
@@ -95,20 +90,6 @@ export default {
         promo2Image,
         promo3Image,
       ],
-      typeList: Object.freeze([
-        {
-          id: FILTER_TYPE_NEW,
-          name: 'Новинки',
-        },
-        {
-          id: FILTER_TYPE_POPULAR,
-          name: 'Популярное',
-        },
-        {
-          id: FILTER_TYPE_SALE,
-          name: 'Распродажа',
-        },
-      ].map(Object.freeze)),
       swiperOption: {
         centeredSlides: true,
         loop: true,
@@ -123,15 +104,17 @@ export default {
 
   computed: {
     ...mapState('product', [
-      'BrandList',
       'CartProductList',
       'ProductList',
     ]),
 
     productListFiltered() {
-      return this.brandId
-        ? this.ProductList.filter((it) => it.brand.id === this.brandId)
+      return this.categoryId
+        ? this.ProductList.filter((product) => product.categoryIdList.includes(this.categoryId))
         : this.ProductList
+      // return this.brandId
+      //   ? this.ProductList.filter((it) => it.brand.id === this.brandId)
+      //   : this.ProductList
     },
 
     productListSearched() {
@@ -175,10 +158,37 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~@/common/assets/styles/mixins.styl'
-
 #home
+  display grid
+  grid-template-areas 'carousel carousel' 'navigation carousel'
   padding 2rem 0
+
+  .home-body
+    container()
+
+    align-items flex-start
+    display flex
+    flex auto
+
+    .filter-container
+      flex none
+      padding $md
+      width 18rem
+
+      .filter-title
+        font-size $fs-lg
+        font-weight $fw-semi-bold
+        margin-bottom .5rem
+        padding .5rem
+
+    .home-separator
+      align-self stretch
+      border-left 1px solid $bc-1
+      margin 0 $md
+
+    .product-list
+      flex auto
+      min-width 0
 
   .promo-carousel
     margin-bottom 3rem
@@ -212,62 +222,10 @@ export default {
   // height 300px
   // object-fit cover
   // width 100%
-  .filter-list
-    display flex
-    overflow-y auto
-    padding $md
-    scroll-behavior smooth
-    scrollbar-width none
-
-    &::-webkit-scrollbar
-      display none
-
-    &::after
-      content ''
-      flex none
-      width 1.25rem
-
-    .filter-item
-      color #87888b
-      cursor pointer
-      flex none
-      font-size $fs-md
-      font-weight 500
-      position relative
-      transition color .2s
-
-      &:not(:first-child)
-        margin-left 1.25rem
-
-      &::after
-        background-color $primary
-        border-radius $radius-circle
-        content ''
-        display block
-        height .25rem
-        left 50%
-        opacity 0
-        position absolute
-        top 110%
-        transform translateX(-50%)
-        transition opacity .2s
-        width .25rem
-
-      &.active
-        // color $tc-1
-        color #333
-
-        &::after
-          opacity 1
-
   .product-list
     display grid
-    gap 1.5rem 1rem
+    gap 1rem
     grid-template-columns repeat(auto-fill, minmax(250px, 1fr))
-    // container()
-    margin 0 auto
-    max-width $container-max-width
-    padding 1rem
     scroll-behavior smooth
 
     .product-item

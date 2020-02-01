@@ -3,18 +3,18 @@ article#product(v-if="product")
   figure.product-preview-container
     img.product-preview(
       :alt="`Фотография продукта ${product.name}`"
-      :src="product.avatarUrl"
+      :src="avatarUrl"
     )
 
   main.product-body
     section.product-section
       h2.product-title
-        span.product-brand-name {{ product.brand.name }}
+        span.product-brand-name {{ brand.name }}
         |
         | —
         |
         span.product-name {{ product.name }}
-      p.product-tags {{ product.tagList.map(it => it.name.trim()).join(', ').toLowerCase() }}
+      p.product-categories {{ categoryList.map(it => it.name.trim()).join(', ').toLowerCase() }}
 
     section.product-section
       .product-description {{ product.description }}
@@ -61,7 +61,6 @@ article#product(v-if="product")
       button.add-to-cart(
         @click="addToCart"
       ) Добавить в корзину
-
 </template>
 
 <script>
@@ -94,11 +93,25 @@ export default {
     ]),
 
     ...mapGetters('product', [
+      'GetBrand',
+      'GetCategory',
       'GetProduct',
     ]),
 
+    avatarUrl() {
+      return this.extraSelected.avatarUrl
+    },
+
+    brand() {
+      return this.GetBrand(this.product.brandId)
+    },
+
+    categoryList() {
+      return this.product.categoryIdList.map(this.GetCategory)
+    },
+
     extraSelected() {
-      return this.product?.extraList.find((it) => it.id === this.extraIdSelected)
+      return this.product.extraList.find((it) => it.id === this.extraIdSelected)
     },
 
     product() {
@@ -117,13 +130,10 @@ export default {
   watch: {
     product: {
       handler(curr) {
-        this.extraIdSelected = curr?.extraList[0]?.id
+        this.extraIdSelected = curr?.extraList[0].id
       },
       immediate: true,
     },
-  },
-
-  mounted() {
   },
 
   methods: {
@@ -162,7 +172,7 @@ export default {
   position relative
 
   .product-preview-container
-    border-radius $radius-md
+
     flex none
     margin-right $xxl
     width 40%
@@ -186,7 +196,7 @@ export default {
       .product-brand-name
         font-weight $fw-semi-bold
 
-    .product-tags
+    .product-categories
       color $tc-2
       font-size $fs-sm
 
@@ -226,7 +236,7 @@ export default {
 
       .product-extra
         border .05rem solid $bc-1
-        border-radius $radius-md
+
         // color $tc-1
         cursor pointer
         display flex
@@ -259,7 +269,7 @@ export default {
 
     background-color $white
     border .05rem solid $bc-1
-    border-radius $radius-md
+
     display flex
     overflow hidden
     width $count-item-size * 3
@@ -288,7 +298,7 @@ export default {
 
   .add-to-cart
     background-color $tertiary
-    border-radius $radius-md
+
     box-shadow $shadow-1
     color white
     display block

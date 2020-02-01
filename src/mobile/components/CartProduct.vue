@@ -58,7 +58,7 @@ export default {
     },
 
     extra() {
-      return this.product?.extraList.find(it => it.id === this.cartProduct.extraId)
+      return this.product?.extraList.find((it) => it.id === this.cartProduct.extraId)
     },
   },
 
@@ -83,7 +83,7 @@ $product-gap = $md
   padding $product-padding
 
   .cart-product-preview
-    border-radius $radius-xs
+
     grid-area preview
     height $product-preview-size
     width $product-preview-size
@@ -138,7 +138,7 @@ $product-gap = $md
 
     background-color $white
     border .05rem solid $bc-1
-    border-radius $radius-sm
+
     display flex
     grid-area count
     margin-left auto

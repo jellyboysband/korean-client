@@ -129,7 +129,6 @@ export default {
 
   computed: {
     ...mapState('product', [
-      'BrandList',
       'CartProductList',
       'ProductList',
     ]),
@@ -224,7 +223,7 @@ export default {
 
     .search-field
       background-color white
-      border-radius $radius-md
+
       // box-shadow 0 0 1rem 0 #d9d9d9
       box-shadow $shadow-1
       display flex
@@ -250,7 +249,7 @@ export default {
     .product-cart-link
       align-items center
       background-color $secondary
-      border-radius $radius-md
+
       box-shadow $shadow-1
       color $white
       display flex
@@ -294,7 +293,7 @@ export default {
       width $md
 
     .promo-item
-      border-radius $radius-md
+
       box-shadow $shadow-1
       flex none
       overflow hidden
@@ -371,13 +370,13 @@ export default {
     .product-item
       .product-card
         background-color white
-        border-radius $radius-md
+
         box-shadow $shadow-1
         overflow hidden
         position relative
 
         .product-preview-container
-          border-radius $radius-md
+
           padding-top 100%
           position relative
 
@@ -400,7 +399,7 @@ export default {
 
           .product-sale
             background-color $secondary
-            border-radius $radius-xs
+
             box-shadow $shadow-1
             color alpha($white, .87)
             font-size $fs-xs

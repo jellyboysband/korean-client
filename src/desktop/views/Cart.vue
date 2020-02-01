@@ -80,7 +80,7 @@ export default {
 
     createOrder() {
       this.CreateOrder({ phone: this.phone })
-        .then(orderId => this.$router.push({
+        .then((orderId) => this.$router.push({
           name: 'order',
           params: {
             orderId,
@@ -113,6 +113,7 @@ $product-preview-size = 4.5rem
 
   .cart-body
     flex auto
+    min-width 0
 
     .cart-product-list-empty
       font-size $fs-lg
@@ -125,20 +126,21 @@ $product-preview-size = 4.5rem
         text-decoration underline
 
     .cart-product-item
-      position relative
+      // position relative
+      margin-bottom 1rem
 
-      &:not(:last-child)::before
-        background-color $bc-1
-        bottom 0
-        content ''
-        height .05rem
-        left $product-preview-size + $md + $md
-        position absolute
-        right 0
+      // &:not(:last-child)::before
+      //   background-color $bc-1
+      //   bottom 0
+      //   content ''
+      //   height .05rem
+      //   left $product-preview-size + $md + $md
+      //   position absolute
+      //   right 0
 
   .cart-separator
     align-self stretch
-    border-left .05rem solid $bc-1
+    border-left 1px solid $bc-1
     margin 0 $md
 
   .cart-footer
@@ -169,14 +171,12 @@ $product-preview-size = 4.5rem
     .cart-user-phone
       background-color white
       border .05rem solid $bc-1
-      border-radius $radius-md
       height 2.75rem
       padding 0 $sm
       width 100%
 
     .cart-buy
       background-color $tertiary
-      border-radius $radius-md
       box-shadow $shadow-1
       color white
       display block
