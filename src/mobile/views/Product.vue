@@ -110,11 +110,11 @@ export default {
   },
 
   computed: {
-    ...mapState('product', [
+    ...mapState('shop', [
       'CartProductList',
     ]),
 
-    ...mapGetters('product', [
+    ...mapGetters('shop', [
       'GetProduct',
     ]),
 
@@ -144,7 +144,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('product', [
+    ...mapMutations('shop', [
       'AddCartProduct',
     ]),
 
@@ -306,7 +306,7 @@ export default {
   .product-count
     $count-item-size = 2.75rem
 
-    background-color $white
+    background-color white
     border .75px solid $bc-1
 
     display flex
@@ -344,7 +344,7 @@ export default {
     height 2.75rem
     margin $md auto 0
     padding 0 $xxl
-    transition background-color .2s ease-out
+    transition background-color .2s ease-in-out
     user-select none
     width 100%
 

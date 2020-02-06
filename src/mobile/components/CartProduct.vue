@@ -49,7 +49,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('product', [
+    ...mapGetters('shop', [
       'GetProduct',
     ]),
 
@@ -63,7 +63,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('product', [
+    ...mapMutations('shop', [
       'RemoveCartProduct',
     ]),
   },
@@ -136,7 +136,7 @@ $product-gap = $md
   .cart-product-count
     $count-item-size = 1.75rem
 
-    background-color $white
+    background-color white
     border 1px solid $bc-1
 
     display flex

@@ -8,13 +8,9 @@ article#product(v-if="product")
 
   main.product-body
     section.product-section
-      h2.product-title
-        span.product-brand-name {{ brand.name }}
-        |
-        | —
-        |
-        span.product-name {{ product.name }}
-      p.product-categories {{ categoryList.map(it => it.name.trim()).join(', ').toLowerCase() }}
+      p.product-brand-name {{ brand.name }}
+      h1.product-name {{ product.name }}
+      //- p.product-categories {{ categoryList.map(it => it.name.trim()).join(', ').toLowerCase() }}
 
     section.product-section
       .product-description {{ product.description }}
@@ -58,7 +54,7 @@ article#product(v-if="product")
           span.product-price-curr {{ extraSelected.price * count | number }} ₽
           //- span.product-price-prev {{ product.price | number }} ₽
 
-      button.add-to-cart(
+      button.add-to-cart.button(
         @click="addToCart"
       ) Добавить в корзину
 </template>
@@ -88,11 +84,11 @@ export default {
   },
 
   computed: {
-    ...mapState('product', [
+    ...mapState('shop', [
       'CartProductList',
     ]),
 
-    ...mapGetters('product', [
+    ...mapGetters('shop', [
       'GetBrand',
       'GetCategory',
       'GetProduct',
@@ -137,7 +133,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('product', [
+    ...mapMutations('shop', [
       'AddCartProduct',
     ]),
 
@@ -167,15 +163,14 @@ export default {
 
   align-items flex-start
   display flex
-  padding-bottom $xxl
-  padding-top $xxl
+  padding-bottom 5rem
+  padding-top 5rem
   position relative
 
   .product-preview-container
-
     flex none
-    margin-right $xxl
-    width 40%
+    margin-right 4rem
+    width 45%
 
     .product-preview
       color $tc-3
@@ -189,12 +184,17 @@ export default {
     // padding $xl $md
     flex auto
 
-    .product-title
-      font-size $fs-xl
-      margin-bottom $xs
+    .product-brand-name
+      serif()
 
-      .product-brand-name
-        font-weight $fw-semi-bold
+      color #f5989d
+      font-size $fs-lg
+      font-style italic
+
+    .product-name
+      serif()
+
+      font-size 2rem
 
     .product-categories
       color $tc-2
@@ -204,6 +204,8 @@ export default {
     .product-apply
       // color $tc-2
       font-size $fs-sm
+      line-height 1.5
+      max-width 60ch
       white-space pre-line
 
       &:not(:first-child)
@@ -213,7 +215,8 @@ export default {
         margin-top $sm
 
   .product-section
-    padding $md
+    &:not(:first-child)
+      margin-top 2rem
 
     .description-title
       align-items center
@@ -236,7 +239,6 @@ export default {
 
       .product-extra
         border 1px solid $bc-1
-
         // color $tc-1
         cursor pointer
         display flex
@@ -255,9 +257,10 @@ export default {
     margin-left $md
 
     .product-price-curr
+      serif()
+
       display block
-      font-size $fs-xl
-      font-weight $fw-semi-bold
+      font-size $fs-xxl
 
     .product-price-prev
       color $tc-3
@@ -267,9 +270,8 @@ export default {
   .product-count
     $count-item-size = 2.75rem
 
-    background-color $white
+    background-color white
     border 1px solid $bc-1
-
     display flex
     overflow hidden
     width $count-item-size * 3
@@ -297,19 +299,7 @@ export default {
         background-color alpha($primary, .2)
 
   .add-to-cart
-    background-color $tertiary
-
-    box-shadow $shadow-1
-    color white
-    display block
-    height 2.75rem
-    margin-top $md
-    padding 0 $xxl
-    transition background-color .2s ease-out
-    user-select none
-
-    &:active
-      background-color darken($tertiary, 10%)
+    margin-top 1rem
 
 .product-footer
   margin-top $lg

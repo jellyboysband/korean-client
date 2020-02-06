@@ -2,10 +2,12 @@
 #app
   Header
 
-  template(v-if="initialized")
-    Navigation
+  RouterView
 
-    RouterView
+  //- template(v-if="initialized")
+  //-   Navigation
+
+  //-   RouterView
 
   Footer
 
@@ -39,8 +41,8 @@ export default {
 <style lang="stylus">
 html
   // background-color alpha($primary, .05)
-  background-color hsla(210, 25%, 97%, 1)
-  font-size 18px
+  // background-color hsla(210, 25%, 97%, 1)
+  // font-size 18px
   // overflow-x hidden
   // width 100%
 
@@ -50,4 +52,6 @@ html
   min-height 100vh
   position relative
   // width 100%
+  padding 2rem
+
 </style>

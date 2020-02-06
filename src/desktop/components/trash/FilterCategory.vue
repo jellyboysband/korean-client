@@ -16,7 +16,7 @@ section.filter-category
           @click.self="toggleOpenCategory(node.id)"
         )
           RouterLink.filter-link(
-            :to="{ name: 'home', query: { categoryId: category.id } }"
+            :to="{ name: 'home', query: { ...$route.query, categoryId: category.id } }"
           ) {{ category.name }}
 
           VIcon.filter-open-toggle(
@@ -36,10 +36,10 @@ import { mapState } from 'vuex'
 
 import groupBy from '@/common/lib/groupBy'
 
-// import Category from '@/common/models/Category'
+// import Category from '@/common/shop/models/Category'
 
-import TreeNode from '@/desktop/components/TreeNode.vue'
-import FilterCategoryItem from '@/desktop/components/FilterCategoryItem.vue'
+import TreeNode from '@/desktop/components/trash/TreeNode.vue'
+import FilterCategoryItem from '@/desktop/components/trash/FilterCategoryItem.vue'
 
 
 export default {
@@ -78,7 +78,7 @@ export default {
   },
 
   computed: {
-    ...mapState('product', [
+    ...mapState('shop', [
       'CategoryList',
     ]),
 
@@ -122,9 +122,9 @@ export default {
     nodeTree() {
       const { categoryIdOpenList } = this
       const categoryListByParentId = groupBy(this.CategoryList, 'parentId')
-      const categoryRootList = this.CategoryList.filter((category) => category.parentId === null)
+      const categoryRootList = this.CategoryList.filter((category) => category.parentId === 0)
 
-      const createNodeTree = (categoryList, deep = 1) => categoryList.map((category) => ({
+      const createNodeTree = (categoryList, deep = 0) => categoryList.map((category) => ({
         id: category.id,
         childrenList: createNodeTree(categoryListByParentId[category.id] ?? [], deep + 1),
         deep,

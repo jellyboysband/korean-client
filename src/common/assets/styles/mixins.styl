@@ -6,12 +6,33 @@ mask()
   right 0
   top 0
 
-container($padding = 1.25rem, $max-width = $container-max-width)
-  $query = 'calc(50vw - %s + %s)' % (($max-width * .5) $padding)
+// container($padding = 1.25rem, $max-width = $container-max-width)
+//   $query = 'calc(50vw - %s + %s)' % (($max-width * .5) $padding)
+
+//   padding-left $query
+//   padding-right $query
+
+//   @media only screen and (max-width: 'calc(%s + %s)' % ($max-width $padding))
+//     padding-left $padding
+//     padding-right $padding
+
+container($max-width = $container-max-width)
+  $query = 'calc(50vw - %s)' % (($max-width * .5))
 
   padding-left $query
   padding-right $query
 
-  @media only screen and (max-width: 'calc(%s + %s)' % ($max-width $padding))
-    padding-left $padding
-    padding-right $padding
+serif()
+  font-family 'Cormorant Unicase', serif
+  font-family 'Noto Serif', serif
+  font-family 'Playfair Display', serif
+  font-family 'EB Garamond', serif
+  font-family 'Vollkorn', serif
+  font-family 'Gabriela', serif
+  font-family 'Kurale', serif
+  font-family 'Cormorant Garamond', serif
+  font-family 'Alegreya', serif
+  font-family 'Lora', serif
+
+sans()
+  font-family 'Montserrat', sans-serif

@@ -2,7 +2,7 @@
 const state = {}
 const nodeList = []
 
-const getLastValueInMap = map => Array.from(map)[map.size - 1]?.[1]
+const getLastValueInMap = (map) => Array.from(map)[map.size - 1]?.[1]
 
 const createMetaNode = (props) => {
   const node = document.createElement('meta')
@@ -10,15 +10,15 @@ const createMetaNode = (props) => {
   return node
 }
 
-const addMetaNode = node => document.head.appendChild(node)
+const addMetaNode = (node) => document.head.appendChild(node)
 
-const removeMetaNode = node => document.head.removeChild(node)
+const removeMetaNode = (node) => document.head.removeChild(node)
 
 const updateMeta = () => {
   const newNodeList = Object
     .values(state)
     .map(getLastValueInMap)
-    .filter(it => !!it)
+    .filter((it) => !!it)
 
   nodeList.forEach(removeMetaNode)
   nodeList.splice(0, nodeList.length, ...newNodeList)

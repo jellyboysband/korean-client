@@ -1,9 +1,6 @@
-import api from '@/common/api'
+import setState from '@/common/lib/setState'
+import api from '@/common/shop/api'
 
-
-const SetState = (key) => (state, data) => {
-  state[key] = data
-}
 
 const store = {
   namespaced: true,
@@ -43,9 +40,9 @@ const store = {
       if (~index) CartProductList.splice(index, 1)
     },
 
-    SetBrandList: SetState('BrandList'),
-    SetCategoryList: SetState('CategoryList'),
-    SetProductList: SetState('ProductList'),
+    SetBrandList: setState('BrandList'),
+    SetCategoryList: setState('CategoryList'),
+    SetProductList: setState('ProductList'),
   },
 
   actions: {

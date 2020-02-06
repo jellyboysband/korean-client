@@ -1,10 +1,9 @@
 import wretch from 'wretch'
 
-import Brand from '@/common/models/Brand'
-import Category from '@/common/models/Category'
-import Product from '@/common/models/Product'
-import ProductExtra from '@/common/models/ProductExtra'
-
+import Brand from '@/common/shop/models/Brand'
+import Category from '@/common/shop/models/Category'
+import Product from '@/common/shop/models/Product'
+import Extra from '@/common/shop/models/Extra'
 
 const request = wretch('/api')
 
@@ -34,7 +33,10 @@ export default {
     .url('/categories')
     .get()
     .json()
-    .then((response) => response.list.map((category) => new Category(category))),
+    .then((response) => response.list.map((category) => new Category({
+      ...category,
+      parentId: category.parentId === null ? 0 : category.parentId,
+    }))),
 
   getProductList: ({ brandId } = {}) => request
     .url('/products')
@@ -50,7 +52,7 @@ export default {
       ...product,
       brandId: product.brand.id,
       categoryIdList: product.categories.map((category) => category.id),
-      extraList: product.extras.map((extra) => new ProductExtra(extra)),
+      extraList: product.extras.map((extra) => new Extra(extra)),
     }))),
 
   getProduct: ({ productId }) => request

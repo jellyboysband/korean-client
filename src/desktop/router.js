@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Cart from '@/desktop/views/Cart.vue'
-import Home from '@/desktop/views/Home.vue'
-import OrderComplete from '@/desktop/views/OrderComplete.vue'
-import Product from '@/desktop/views/Product.vue'
-
+import Blog from '@/desktop/views/Blog/Blog.vue'
+import Cart from '@/desktop/views/Cart/Cart.vue'
+import Home from '@/desktop/views/Home/Home.vue'
+import OrderComplete from '@/desktop/views/OrderComplete/OrderComplete.vue'
+import Post from '@/desktop/views/Post/Post.vue'
+import Product from '@/desktop/views/Product/Product.vue'
+import Shop from '@/desktop/views/Shop/Shop.vue'
 
 Vue.use(Router)
 
@@ -14,35 +16,59 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      name: 'default',
       path: '*',
       redirect: { name: 'home' },
     },
     {
-      path: '/',
       name: 'home',
+      path: '/',
       component: Home,
+    },
+    {
+      name: 'shop',
+      path: '/shop',
+      component: Shop,
       props: (route) => ({
-        categoryId: +route.query.categoryId,
-        typeId: route.query.type,
-        search: route.query.search,
+        categoryId: Number(route.query.categoryId ?? 0),
+        page: Number(route.query.page ?? 1),
+        search: route.query.search ?? '',
       }),
     },
     {
-      path: '/product/:productId',
       name: 'product',
+      path: '/product/:productId',
       component: Product,
       props: (route) => ({
         productId: +route.params.productId,
       }),
     },
     {
-      path: '/cart',
       name: 'cart',
+      path: '/cart',
       component: Cart,
     },
     {
-      path: '/order/:orderId',
+      name: 'blog',
+      path: '/blog',
+      component: Blog,
+      props: (route) => ({
+        categoryId: Number(route.query.categoryId ?? 0),
+        page: Number(route.query.page ?? 1),
+        search: route.query.search ?? '',
+      }),
+    },
+    {
+      name: 'post',
+      path: '/post/:postId',
+      component: Post,
+      props: (route) => ({
+        postId: +route.params.postId,
+      }),
+    },
+    {
       name: 'order',
+      path: '/order/:orderId',
       component: OrderComplete,
       props: (route) => ({
         orderId: +route.params.orderId,

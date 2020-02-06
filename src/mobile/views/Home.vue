@@ -128,7 +128,7 @@ export default {
   },
 
   computed: {
-    ...mapState('product', [
+    ...mapState('shop', [
       'CartProductList',
       'ProductList',
     ]),
@@ -251,7 +251,7 @@ export default {
       background-color $secondary
 
       box-shadow $shadow-1
-      color $white
+      color white
       display flex
       font-size $fs-xl
       height $field-height
@@ -401,7 +401,7 @@ export default {
             background-color $secondary
 
             box-shadow $shadow-1
-            color alpha($white, .87)
+            color alpha(white, .87)
             font-size $fs-xs
             font-weight $fw-semi-bold
             padding $xxs $xs

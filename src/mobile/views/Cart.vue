@@ -12,7 +12,7 @@ article#cart
         v-for="cartProduct in CartProductList"
         :key="cartProduct.productId"
       )
-        CartProduct(
+        CartProductCard(
           :cartProduct="cartProduct"
         )
 
@@ -52,12 +52,12 @@ import {
   mapActions,
 } from 'vuex'
 
-import CartProduct from '@/desktop/components/CartProduct.vue'
+import CartProductCard from '@/desktop/views/Cart/CartProductCard.vue'
 
 
 export default {
   components: {
-    CartProduct,
+    CartProductCard,
   },
 
   data() {
@@ -67,11 +67,11 @@ export default {
   },
 
   computed: {
-    ...mapState('product', [
+    ...mapState('shop', [
       'CartProductList',
     ]),
 
-    ...mapGetters('product', [
+    ...mapGetters('shop', [
       'GetExtra',
     ]),
 
@@ -81,11 +81,11 @@ export default {
   },
 
   methods: {
-    ...mapMutations('product', [
+    ...mapMutations('shop', [
       'CreateOrder',
     ]),
 
-    ...mapActions('product', [
+    ...mapActions('shop', [
       'CreateOrder',
     ]),
 
@@ -194,7 +194,7 @@ $product-preview-size = 4.5rem
       height 2.75rem
       margin $md auto 0
       padding 0 $xxl
-      transition background-color .2s ease-out
+      transition background-color .2s ease-in-out
       user-select none
       width 100%
 

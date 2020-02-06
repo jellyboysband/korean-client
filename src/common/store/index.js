@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import product from '@/common/store/product'
+import blog from '@/common/blog/store'
+import shop from '@/common/shop/store'
 import lang from '@/common/store/lang'
 
 Vue.use(Vuex)
 
 const store = {
   modules: {
-    product,
+    blog,
+    shop,
     lang,
   },
 
@@ -25,10 +27,14 @@ const store = {
   actions: {
     async Init({ commit, dispatch }) {
       return Promise.all([
-        dispatch('product/LoadBrandList'),
-        dispatch('product/LoadCategoryList'),
-        dispatch('product/LoadProductList'),
-      ]).then(() => commit('initialize'))
+        dispatch('shop/LoadBrandList'),
+        dispatch('shop/LoadCategoryList'),
+        dispatch('shop/LoadProductList'),
+        dispatch('blog/LoadCategoryList'),
+        dispatch('blog/LoadPostList'),
+      ])
+        // .then(() => commit('shop/AddCartProduct', { productId: 15, extraId: 15, count: 3 }))
+        .then(() => commit('initialize'))
     },
   },
 }

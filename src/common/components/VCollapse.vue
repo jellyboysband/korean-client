@@ -78,5 +78,5 @@ export default {
 .collapse-content
   height auto
   overflow hidden
-  transition height .3s ease-out
+  transition height .3s ease-in-out
 </style>

@@ -9,7 +9,7 @@ section.filter-category-item(
 </template>
 
 <script>
-import Category from '@/common/models/Category'
+import Category from '@/common/shop/models/Category'
 
 
 export default {

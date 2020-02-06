@@ -1,13 +1,5 @@
 <template lang="pug">
 header#header
-  nav.navigation
-    RouterLink.navigation-item(
-      :to="{ name: 'contact' }"
-    ) Контакты
-    RouterLink.navigation-item(
-      :to="{ name: 'delivery' }"
-    ) Доставка
-
   RouterLink.logo-link(
     :to="{ name: 'home' }"
   )
@@ -15,20 +7,38 @@ header#header
       src="@/common/assets/images/logotype-small.svg"
     )
 
-  form.search-field(@submit.prevent="onSearchSubmit")
-    .search-icon-container
-      VIcon.search-icon(icon="regular/search")
-    input.search-input(
-      v-model="searchText"
-      placeholder="Поиск по товарам"
-      type="search"
-    )
+  nav.navigation
+    ul.navigation-list
+      li.navigation-item
+        RouterLink.navigation-link(
+          :to="{ name: 'home' }"
+        ) Главная
+      li.navigation-item
+        RouterLink.navigation-link(
+          :to="{ name: 'shop' }"
+        ) Магазин
+      li.navigation-item
+        RouterLink.navigation-link(
+          :to="{ name: 'cosmetology' }"
+        ) Косметология
+      li.navigation-item
+        RouterLink.navigation-link(
+          :to="{ name: 'blog' }"
+        ) Блог
+      li.navigation-item
+        RouterLink.navigation-link(
+          :to="{ name: 'contact' }"
+        ) Контакты
+      li.navigation-item
+        RouterLink.navigation-link(
+          :to="{ name: 'delivery' }"
+        ) Доставка
 
   RouterLink.product-cart-link(
     :to="{ name: 'cart' }"
   )
     VIcon(icon="light/shopping-bag" square)
-    span.product-cart-count(v-if="CartProductList.length") {{ CartProductList.length }}
+    span.product-cart-count {{ CartProductList.length }}
 </template>
 
 <script>
@@ -43,7 +53,7 @@ export default {
   },
 
   computed: {
-    ...mapState('product', [
+    ...mapState('shop', [
       'CartProductList',
     ]),
   },
@@ -86,96 +96,65 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import '~@/common/assets/styles/mixins.styl'
 
 #header
-  $field-height = 2.75rem
   container()
 
-  align-items center
-  background-color white
-  // border-bottom 1px solid $bc-1
-  display grid
-  grid-template-areas 'logo . navigation' 'logo search cart'
-  grid-template-columns 1fr 1fr 1fr
-  padding-bottom .25rem
-  padding-top .25rem
-  position sticky
-  top 0
-  z-index 500
+  display flex
+  height 4rem
+  user-select none
 
-  .navigation
-    align-items center
+.logo-link
+  display block
+  height 4rem
+  margin-right 1.5rem
+  width 4rem
+
+  .logo
+    height 100%
+    object-fit contain
+    transform scale(1.4)
+
+.navigation
+  .navigation-list
     display flex
-    grid-area navigation
-    margin-left auto
+    height 100%
 
     .navigation-item
-      font-size $fs-sm
-      font-weight 600
+      .navigation-link
+        align-items center
+        display flex
+        font-size $fs-sm
+        font-weight 600
+        height 100%
+        letter-spacing .05em
+        padding 0 1.5rem
+        text-align center
+        text-transform uppercase
 
-      &:not(:first-child)
-        margin-left 1rem
+        &:hover
+          text-decoration underline
 
-  .logo-link
-    grid-area logo
-    height 100px
-    margin-right auto
+.product-cart-link
+  align-items center
+  display flex
+  font-size $fs-xxl
+  justify-content center
+  margin-left auto
+  padding 0 .5rem
+  position relative
+  text-align center
 
-    .logo
-      height 100%
-      object-fit contain
-
-  .search-field
-    background-color white
-    border 1px solid $bc-1
-    // border-radius $radius-circle
-    display flex
-    grid-area search
-    height $field-height
-    position relative
-
-    .search-icon-container
-      align-items center
-      display flex
-      height $field-height
-      justify-content center
-      position absolute
-      width $field-height
-
-      .search-icon
-        color $tc-3
-
-    .search-input
-      color #181818
-      padding-left $field-height
-      width 100%
-
-  .product-cart-link
-    align-items center
-    background-color $secondary
-    box-shadow $shadow-1
-    color $white
-    display flex
-    font-size $fs-xl
-    grid-area cart
-    height $field-height
-    justify-content center
-    margin-left auto
-    position relative
-    text-align center
-    width $field-height
-
-    .product-cart-count
-      background-color $tertiary
-      border-radius $radius-circle
-      box-shadow $shadow-1
-      font-size $fs-xxs
-      font-weight $fw-semi-bold
-      height 1rem
-      position absolute
-      right $xxs
-      top $xxs
-      width 1rem
+  .product-cart-count
+    background-color #2f6d6c
+    border-radius $radius-circle
+    color white
+    font-size .625rem
+    height .875rem
+    pointer-events none
+    position absolute
+    transform translate(70%, -70%)
+    width .875rem
 </style>

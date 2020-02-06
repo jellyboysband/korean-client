@@ -1,8 +1,57 @@
 @import 'reset'
 
-
 html
+  // font-family 'Montserrat', sans-serif
+  // font-family 'Cormorant Unicase', serif
+  // font-family 'Noto Serif', serif
+  // font-family 'M PLUS Rounded 1c', sans-serif
+  color $tc-1
   // font-family 'Roboto', sans-serif
   // font-family 'Marmelad', sans-serif
   font-family 'Open Sans', sans-serif
-  // font-family 'M PLUS Rounded 1c', sans-serif
+
+::selection
+  background #f5989d
+  color white
+
+.button
+  border 2px solid $tc-1
+  display inline-block
+  font-size $fs-xs
+  letter-spacing .2em
+  padding 1rem 1.75rem
+  text-transform uppercase
+  transition color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out
+  vertical-align middle
+  white-space nowrap
+  width auto
+
+  &:hover:not(:disabled)
+    background-color $tc-1
+    color white
+
+  &:disabled
+    border-color $tc-3
+    color $tc-3
+    cursor not-allowed
+
+.table
+  border-collapse collapse
+  border-spacing 0
+  vertical-align middle
+  width 100%
+
+  .thead
+    .th
+      serif()
+
+      color #f5989d
+      font-style italic
+      font-weight 500
+      letter-spacing .01em
+      padding .75rem 0
+
+  .thead
+  .tbody
+    .tr
+      border-bottom 1px solid #d7d7d7

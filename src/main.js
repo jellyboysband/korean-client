@@ -5,8 +5,8 @@ import store from '@/common/store'
 import filters from '@/common/filters'
 import '@/registerServiceWorker'
 
-import VCollapse from '@/common/elements/VCollapse.vue'
-import VIcon from '@/common/elements/VIcon.vue'
+import VCollapse from '@/common/components/VCollapse.vue'
+import VIcon from '@/common/components/VIcon.vue'
 
 import '@/common/assets/styles/index.styl'
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -26,9 +26,10 @@ store.commit('SetLang', 'ru' || window.localStorage.lang || navigator.language |
 store.dispatch('Init')
 Object.entries(filters(store.getters)).forEach(([key, value]) => Vue.filter(key, value))
 
-const loadMobile = () => import('@/mobile')
+// const loadMobile = () => import('@/mobile')
 const loadDesktop = () => import('@/desktop')
 
-const isMobile = window.screen.width < 600
-if (isMobile) loadMobile()
-else loadDesktop()
+// const isMobile = window.screen.width < 600
+// if (isMobile) loadMobile()
+// else loadDesktop()
+loadDesktop()

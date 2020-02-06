@@ -1,13 +1,14 @@
-export default class {
+export default class Extra {
   constructor({
     id,
-    // productId,
+    productId,
     avatarUrl,
     price,
     volume,
     weight,
   }) {
     this.id = id
+    this.productId = productId
     this.avatarUrl = avatarUrl
     this.price = price
     this.volume = volume
